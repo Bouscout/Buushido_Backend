@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ; background-attachment: fixed ;background-size: cover; color: gray; ">
+    <style>
+        a {text-decoration: none;
+        color: wheat;}
+    </style>
+<section style="display: grid; width:60%; margin:auto;">
+    {% if form2 %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form2.as_p}}
+        <button type="submit">confirmer</button>
+    </form>
+    <hr>
+    <h2>SUpprimer la serie en entier</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{supprim}}
+        <button type="submit">Supprimer</button>
+    </form>
+   
+    {% else %}
+    {% if form %}
+    <form method="post">
+    {% csrf_token %}    
+    {% if serie %}
+        <h2>{{serie.name}}</h2>
+        <h3><a href="{% url 'modifier_serie' id=serie.id %}" >modifier info de la serie</a></h3>
+        
+        <h3><a href="{% url 'supprimer_epi' id=serie.id %}">supprimer des episodes</a></h3>
+        {% endif %}
+        <label for="saison">La saison correspondante : </label>
+        <input type="number" name="saison" min="1" max="10">
+            {{form.as_p}}
+    <button type="submit">confirmer</button>
+    {% endif %}
+    {% endif %}
+    {% if form3 %}
+    <h2>{{serie.name}}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for elem in video %}
+        <input type="checkbox" name="episodes" value="{{elem.id}}">{{elem}}<br>
+        {% endfor %}
+        <button type="submit">Supprimer les elements</button>
+    </form>
+    <h2><a href="{% url 'gerant_accueil' %}">Retourner accueil gerant</a></h2>
+    {% endif %}
+
+    {% if form4 %}
+    <form method="post">
+    {% csrf_token %}    
+    {% if serie %}
+        <h2>{{serie.name}}</h2>
+        <h3><a href="{% url 'modifier_serie' id=serie.id %}" >modifier info de la serie</a></h3>
+        <h3><a href="1/">modifier lien des episodes</a></h3>
+        <h3><a href="{% url 'supprimer_epi' id=serie.id %}">supprimer des episodes</a></h3>
+        {% endif %}
+        <label for="saison">La saison correspondante : </label>
+        <input type="number" name="saison" min="1" max="10">
+    {{form4.as_p}}
+    <button type="submit">confirmer</button>
+    <hr>
+    <a href="{% url 'plusieurs' id=serie.id %}"><h2 style="text-align: center;">Poster plusieurs episodes en meme temps</h2></a>
+    {% endif %}
+
+    {% if form5 %}
+    {% for video in serie.la_video_set.all %}
+    <a href="{% url 'modifier_lien' id=serie.id il=video.id %}"><h2 style="text-align: center;">{{video}}</h2></a>
+    {% endfor %}
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        {{form5.as_p}}
+        <input type="submit" value="Confirmer modification">
+    </form>
+    <h2><a href="{% url 'gerant_accueil' %}">Retourner accueil gerant</a></h2>
+
+    {% endif %}
+</section>
+</body>
+{% endblock content %}

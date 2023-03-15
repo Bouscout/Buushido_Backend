@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ; background-attachment: fixed ;background-size: cover; ">
+
+  <div class="topnav" id="myTopnav">
+    <a href="{% url 'redirect' 'home' %}" class="active"><i class="fa-solid fa-house-chimney-window "></i><span> Home</span></a>
+    <a href="{% url 'agenda' %}"><i class="fa-regular fa-calendar-days "></i><span> Agenda</span></a>
+    <a href="{% url 'redirect' 'Film' %}"><i class="fa-solid fa-clapperboard"></i><span> Film</span></a>
+    <a href="{% url 'redirect' 'mylist' %}"><i class="fa-solid fa-list"></i><span> Ma liste</span></a>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="menu()"><i class="fa-brands fa-ioxhost "></i> Categories</button>
+      <section class="dropdown-content" id="myDropdown">
+        <div style="flex: 1;">
+            <a href="{% url 'redirect' 'Action' %}">Action</a>
+            <a href="{% url 'redirect' 'Aventure' %}">Aventure</a>
+            <a href="{% url 'redirect' 'Mystere' %}">Mystere</a>
+            <a href="{% url 'redirect' 'Horreur' %}"></i> Horreur</a>
+            <a href="{% url 'redirect' 'Comedie' %}">Comedie</a>
+            <a href="{% url 'redirect' 'Isekai' %}">Isekai</a>
+            <a href="{% url 'redirect' 'Fantaisie' %}">Fantaisie</a>
+            <a href="{% url 'redirect' 'Thriller' %}">Thriller</a>
+          </div><div style="flex: 2;">
+            <a href="{% url 'redirect' 'Drama' %}">Drama</a>
+            <a href="{% url 'redirect' 'Romance' %}">Romance</a>
+            <a href="{% url 'redirect' 'Slice of life' %}">Slice of life</a>
+            <a href="{% url 'redirect' 'Sci-fi' %}">Sci-fi</a>
+            <a href="{% url 'redirect' 'Seinen' %}">Seinen</a>
+      <a href="{% url 'redirect' 'Shonen' %}">Shonen</a>
+      <a href="{% url 'redirect' 'Shojo' %}">Shojo</a>
+      <a href="{% url 'redirect' 'Ecchi' %}">Ecchi</a>
+    </div>
+      </section>
+    </div> 
+    <a href="{% url 'ajax' %}"><span><i class="fa-solid fa-magnifying-glass"></i> Rechercher</span></a>
+    <a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i> Log in</span></a>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="menu2()">&#9776;</a>
+  </div>
+
+    <style>
+        table {
+            font-family: 'Open Sans', Helvetica;
+            color: #efefef;
+            width: 100%;
+    }
+    th{
+        background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ;
+        font-size: 30px;
+    }
+    td{
+        background-color: grey;
+    }
+
+   th, td {
+    
+       padding: 1em; 
+       height: 50px;
+       width: 10em;
+       text-align: center;
+   }
+
+</style>
+<h1 style="text-align: center; font-size: 70px; padding: 250px 0px;">Agenda</h1>
+<section style="display: grid; margin: auto; width: 100%; overflow: hidden;">
+<div style="display: grid; overflow :auto;">
+<table>
+    <tr>
+        <th>Dimanche</th>
+        <th>Lundi</th>
+        <th>Mardi</th>
+        <th>Mercredi</th>
+        <th>Jeudi</th>
+        <th>Vendredi</th>
+        <th>Samedi</th>
+    </tr>
+    {% for col in agenda %}
+    <tr>
+        <td>{{col.Dimanche}}</td>
+        <td>{{col.Lundi}}</td>
+        <td>{{col.Mardi}}</td>
+        <td>{{col.Mercredi}}</td>
+        <td>{{col.Jeudi}}</td>
+        <td>{{col.Vendredi}}</td>
+        <td>{{col.Samedi}}</td>
+        </tr>
+        {% endfor %}
+                  
+</table>
+</div>
+</section>
+</body>
+{% endblock content %}

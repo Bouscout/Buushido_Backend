@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+<head>
+    <style>
+        img{
+            height: 740px;
+            width : 417px ;
+            object-fit: contain;
+            margin: auto;
+        }
+        body{
+            background-image: radial-gradient(rgb(33, 1, 33), #191919);
+        }div{
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 20px;
+            justify-content: center;
+        }h1{
+            font-size: clamp(20px, 30px, 40px);
+            font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif; 
+             font-style: normal;
+              font-variant: normal;
+               font-weight: 700;
+                line-height: 26.4px;
+        color: whitesmoke;
+        }
+    </style>
+    <body>
+        <section style="display: grid; place-items: center;">
+        <div>
+            <h1 style="grid-row: 1;">Desolé nous reviendrons après une maintenance...</h1>
+            <img src="{% static 'astro.gif' %}">
+        </div>
+        </section>
+        </body>
+</head>
+</html>

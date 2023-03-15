@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<!--body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ;" onload="la_vitrine(0)"-->
+<body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ;  ">
+
+  <div class="topnav" id="myTopnav">
+    <a href="{% url 'redirect' 'home' %}" class="active"><i class="fa-solid fa-house-chimney-window "></i><span> Home</span></a>
+    <a href="{% url 'agenda' %}"><i class="fa-regular fa-calendar-days "></i><span> Agenda</span></a>
+    <a href="{% url 'redirect' 'Film' %}"><i class="fa-solid fa-clapperboard"></i><span> Film</span></a>
+    <a href="{% url 'redirect' 'mylist' %}"><i class="fa-solid fa-list"></i><span> Ma liste</span></a>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="menu()"><i class="fa-brands fa-ioxhost "></i> Categories</button>
+      <section class="dropdown-content" id="myDropdown">
+        <div style="flex: 1;">
+            <a href="{% url 'redirect' 'Action' %}">Action</a>
+            <a href="{% url 'redirect' 'Aventure' %}">Aventure</a>
+            <a href="{% url 'redirect' 'Mystere' %}">Mystere</a>
+            <a href="{% url 'redirect' 'Horreur' %}"></i> Horreur</a>
+            <a href="{% url 'redirect' 'Comedie' %}">Comedie</a>
+            <a href="{% url 'redirect' 'Isekai' %}">Isekai</a>
+            <a href="{% url 'redirect' 'Fantaisie' %}">Fantaisie</a>
+            <a href="{% url 'redirect' 'Thriller' %}">Thriller</a>
+          </div><div style="flex: 2;">
+            <a href="{% url 'redirect' 'Drama' %}">Drama</a>
+            <a href="{% url 'redirect' 'Romance' %}">Romance</a>
+            <a href="{% url 'redirect' 'Slice of life' %}">Slice of life</a>
+            <a href="{% url 'redirect' 'Sci-fi' %}">Sci-fi</a>
+            <a href="{% url 'redirect' 'Seinen' %}">Seinen</a>
+      <a href="{% url 'redirect' 'Shonen' %}">Shonen</a>
+      <a href="{% url 'redirect' 'Shojo' %}">Shojo</a>
+      <a href="{% url 'redirect' 'Ecchi' %}">Ecchi</a>
+    </div>
+      </section>
+    </div> 
+    <a href="{% url 'ajax' %}"><span><i class="fa-solid fa-magnifying-glass"></i> Rechercher</span></a>
+    <a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i> Log in</span></a>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="menu2()">&#9776;</a>
+  </div>
+  
+<style>
+ 
+</style>
+  
+  <section style="display: grid; width:60%; margin:auto;">
+    <h1 style="font-size :20px; color :whitesmoke ; text-align:center;">Cliquez sur une lettre pour voir les series correspondantes..</h1>
+<section class="search" style="padding-top: 40px !important;">
+  {% for elem in indice %}
+  <a style="text-decoration: none; text-transform:capitalize; color:black" href="#{{elem}}"><div class="carton">{{elem}}</div></a>
+  {% endfor %}
+</section>
+{% for key, values in dico.items%}
+<h2 id="{{key}}" style="text-transform: capitalize; font-size: 50px;">{{key}}</h2>
+  {% for elem in values %}
+  <a style="text-decoration: none;" href="{% url 'redirect_serie' id=elem.id %}"><h3 style="font-size: 20px; color: antiquewhite;">{{elem}}</h4></a>
+  {% endfor %}
+  <hr style="width:100% ;">
+{% endfor %}
+
+</section>
+
+<footer>
+  <section class="end">
+      <div>
+  <h2>Contact</h2>
+  <h3>Rejoignez notre discord</h3>
+  <h3>Faire un don Paypal</h3>
+      </div><div>
+  <h2>Partager</h2>
+  <h3>Whatsapp</h3>
+  <h3>Facebook</h3>
+  </div><div>
+  <h2>Signaler un bug</h2>
+  <h3>Envoyer un mail</h3>
+  <h3>Contacter directement si urgent</h3>
+  </div>
+  </section>
+  </footer>
+</body>
+{% endblock content %}

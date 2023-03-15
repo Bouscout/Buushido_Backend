@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    @keyframes space{
+        0%  {background-image: url(/media/space.jpg) ; }
+        25% {background-color : rgb(7, 4, 19) ;}
+        50% {background-color : black ;}
+        75% {background-color : rgb(8, 6, 39) ;}
+        100% {background-image : url(/media/moon.jpg) ;}
+    }
+    body{
+        background-attachment: fixed ;background-size: cover; background-repeat: no-repeat;
+        animation: space 20s ease-in-out 0s infinite  alternate ;
+        color : aqua ;
+    }
+    @keyframes speed{
+        0% {background-image : url(/media/moon.jpg) ;}
+        70% {background-image : url(/media/travel.gif) ;}
+        100% {background-color : black ;}
+        /*70% {background-color : black ;}
+        100% {background-color : black ;}*/
+}
+.travel{
+    animation: speed 10s ease-in-out 0s !important ;
+}
+</style>
+<body>
+    <section id="boite" style="
+     position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50px;
+     background-image : radial-gradient(rgba(2, 2, 26, 0.895), rgba(0, 0, 0, 0.616));">
+     {% if form %}
+     <h1 style="text-align: center; font-size:30px ;">Se connecter</h1>
+     <form id="fr1" style="margin-left:50px;" method="post">
+         {% csrf_token %}
+         {{form.as_p}}
+         <button style="text-align: center; margin: auto;" type="submit">confirmer</button>
+     </form>
+     <h3 style="text-align: center;"><a href="{% url 'signup' %}">Nouveau ? Creer un compte...</a></h3>
+     {% else %}
+     <h1 style="text-align: center;">Bienvenue Sur Animeni</h1>
+     <form id="fr2" style="margin-left:50px;" method="post">
+        {% csrf_token %}
+        {{forms.as_p}}
+        <button style="text-align: center; margin: auto;" type="submit">confirmer</button>
+    </form>
+    <h3 style="text-align: center;"><a href="{% url 'login' %}">Vous avez deja un compte...</a></h3>
+    {% endif %}
+    </section>
+</body>
+{% endblock content %}

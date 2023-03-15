@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+<body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ; background-attachment: fixed ;background-size: cover; "-->
+    <script>
+    $(document).ready(e=>{
+      
+        $(document).keyup(f=>{
+          console.log('alors le text est : ', $('#search').val()) ;
+          $.ajax({
+            url : 'https://buushido.ml/ajax/' , 
+            type : 'get' ,
+            enctype: 'multipart/form-data',
+            cache: false,
+	            headers: { "cache-control": "no-cache" },
+              data :{
+                text : $('#search').val()
+              },
+              success : function(response){
+                
+                $('#re1').text('') ;
+                $('#re2').text('') ;
+                $('#re3').text('') ;
+                $('#re4').text('') ;
+                $('#re5').text('') ;
+                var result = response.seconds ;
+                for (let i=0 ; i < result.length; i++ ){
+                  $('#opt'+(i+1)).val(result[i][0]) ;
+                  $('#re'+(i+1)).text(result[i][0]) ;
+                  $('#re'+(i+1)).attr('href', ""+result[i][1]) ;
+                }
+              } ,
+              /*error : function(xhr){     
+        alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+              }*/
+            })
+        })
+    })
+</script>
+
+<div class="topnav" id="myTopnav">
+  <a href="{% url 'redirect' 'home' %}" class="active"><i class="fa-solid fa-house-chimney-window "></i><span> Home</span></a>
+  <a href="{% url 'agenda' %}"><i class="fa-regular fa-calendar-days "></i><span> Agenda</span></a>
+  <a href="{% url 'redirect' 'Film' %}"><i class="fa-solid fa-clapperboard"></i><span> Film</span></a>
+  <a href="{% url 'redirect' 'mylist' %}"><i class="fa-solid fa-list"></i><span> Ma liste</span></a>
+  <div class="dropdown">
+    <button class="dropbtn" onclick="menu()"><i class="fa-brands fa-ioxhost "></i> Categories</button>
+    <section class="dropdown-content" id="myDropdown">
+      <div style="flex: 1;">
+          <a href="{% url 'redirect' 'Action' %}">Action</a>
+          <a href="{% url 'redirect' 'Aventure' %}">Aventure</a>
+          <a href="{% url 'redirect' 'Mystere' %}">Mystere</a>
+          <a href="{% url 'redirect' 'Horreur' %}"></i> Horreur</a>
+          <a href="{% url 'redirect' 'Comedie' %}">Comedie</a>
+          <a href="{% url 'redirect' 'Isekai' %}">Isekai</a>
+          <a href="{% url 'redirect' 'Fantaisie' %}">Fantaisie</a>
+          <a href="{% url 'redirect' 'Thriller' %}">Thriller</a>
+        </div><div style="flex: 2;">
+          <a href="{% url 'redirect' 'Drama' %}">Drama</a>
+          <a href="{% url 'redirect' 'Romance' %}">Romance</a>
+          <a href="{% url 'redirect' 'Slice of life' %}">Slice of life</a>
+          <a href="{% url 'redirect' 'Sci-fi' %}">Sci-fi</a>
+          <a href="{% url 'redirect' 'Seinen' %}">Seinen</a>
+    <a href="{% url 'redirect' 'Shonen' %}">Shonen</a>
+    <a href="{% url 'redirect' 'Shojo' %}">Shojo</a>
+    <a href="{% url 'redirect' 'Ecchi' %}">Ecchi</a>
+  </div>
+    </section>
+  </div> 
+  <a href="{% url 'ajax' %}"><span><i class="fa-solid fa-magnifying-glass"></i> Rechercher</span></a>
+  <a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i> Log in</span></a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="menu2()">&#9776;</a>
+</div>
+
+<section style="width: 80%; margin:auto; display:grid ; ">
+<h1>Tapez ce que que vous rechercher  ou  <a style="text-decoration: None; color: wheat;" href="{% url 'tout' %}"> CLiquez ici pour Voir toutes les series</a></h1>
+
+
+<div style="justify-content: center;">
+<label for="search">Rechercher :</label>
+    <input list="browsers" id="search" name="search" autofocus>
+    <datalist id="browsers">
+      <option id="opt1" value="">
+      <option id="opt2" value="">
+      <option id="opt3" value="">
+      <option id="opt4" value="">
+      <option id="opt5" value="">
+    </datalist>
+    <input type="submit" id="sub" value="Submit">
+</div>
+<hr style="width: 100%;">
+<h1 style="text-align: center; font-size: 30px;">Resultats</h1>
+<a style="text-decoration: none; text-align: center; font-size: 25px; color: wheat;" href="#" id="re1"><h2></h2></a>
+<a style="text-decoration: none; text-align: center; font-size: 25px; color: wheat;" href="#" id="re2"><h2></h2></a>
+<a style="text-decoration: none; text-align: center; font-size: 25px; color: wheat;" href="#" id="re3"><h2></h2></a>
+<a style="text-decoration: none; text-align: center; font-size: 25px; color: wheat;" href="#" id="re4"><h2></h2></a>
+<a style="text-decoration: none; text-align: center; font-size: 25px; color: wheat;" href="#" id="re5"><h2></h2></a>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+  </body>
+
+
+
+
+
+
+
+
+{% endblock content %}

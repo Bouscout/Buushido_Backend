@@ -1,0 +1,241 @@
+.grid_container{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    text-align: center;
+    justify-content: center;
+    width: 90%;
+    margin: auto;
+    /* -webkit-backdrop-filter: blur(4px);
+    -o-backdrop-filter: blur(4px);
+    -moz-backdrop-filter: blur(4px);
+    border-radius: 60px;
+    backdrop-filter: blur(4px);
+    /* */
+       
+}
+@keyframes move {
+    from{  background-image: url(/media/wave.jpg) ; }
+    to { background-image: url(/media/panda.jpg) ; }
+    
+}
+.reglage{
+    width: 70%;
+    text-align: center;
+}
+#shadow{
+    --color_anime2 : rgb(109, 181, 240) ;
+    box-shadow: 20px 20px 50px 5px var(--color_anime2);
+    transition: all 500ms;
+    border-radius: 30px;
+}
+#shadow:hover{
+    box-shadow: 20px 20px 50px 15px black;
+    transform: translateY(-3px) scale(1.1);
+}
+#back{
+background-size: cover; background-repeat: no-repeat; width: 100%;
+background-position: center;  animation: fadein 300ms ease-in-out 0s 4 alternate;}
+#back h1{padding: 300px 0px; font-size: 70px;}
+.carte{
+    /*
+    box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
+    box-shadow: 20px 20px 50px 15px rgb(249, 249, 249);
+    */
+    transition: all 500ms;
+    animation: fadein 500ms ease-in-out 0s 2 alternate;
+    /* box-shadow: 20px 20px 20px 15px black; */
+    box-shadow: rgb(0, 0, 0) 0px 20px 30px -10px;    border-radius: 4px;
+    border-radius: 4px;
+overflow: hidden;
+scale: 1;
+border-radius: 15px;
+/* scale: 0.9; */
+margin: 20px 0px ;
+}
+.carte img{
+    /* -webkit-filter: brightness(0%); */
+    /* -webkit-filter: opacity(0%); */
+    animation: pics 1s ease-in-out 1s 1 both;
+}
+.carte:hover{
+    /* box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35em 1.175em, rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em; */
+
+    /* transform: translateY(-3px) scale(1.1); */
+    transform: translateY(-3px) scale(1.02);
+}
+
+.wrapper{
+    /* display: flex;
+    flex-direction: column;
+    margin: 0px; */
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-content: space-between;
+    gap: 0rem;
+}
+
+
+.onglet_row{
+    grid-row: 1;
+}
+.onglet{
+    /* scale: 0.85; */
+    scale : 1 ; 
+    display: grid;
+    grid-template-columns: repeat(10, minmax(240px, 1fr));
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /* animation: fadein 5s linear 0s both; */
+    border-radius: 20px;
+    /* width: 80%; */
+    width: 92%;
+    /* padding-left: 50px; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: auto;
+    gap: 5rem;
+    /* gap: 6rem; */
+    justify-items: center;
+}
+/*#ong{margin: auto;}*/
+
+#the_head{
+    display: flex;
+    z-index: -5;
+    animation: move 20s linear 0s infinite alternate ;
+    justify-content: center;
+    justify-items: center;
+    background-size: cover;
+    background-image: linear-gradient(rgba(54, 53, 53, 0.2), rgba(50, 50, 60, 0.2)), url(/media/wave.jpg) ; 
+    border-bottom: solid rgba(11, 10, 14, 0.763);
+    width: 100%;
+    
+    margin-bottom: 0px;
+}
+
+
+.grid_item img {
+    height: 600px;
+    width: 360px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+.grid_container_top{
+    display: grid;
+    grid-template-columns: 650px auto;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+}
+#more{display: none;}
+
+.episode{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 1rem;
+    justify-content: space-evenly;
+}
+.episode button{
+width: 100%;
+font-size: 20px;
+box-shadow: 20px 20px 50px 15px rgba(169, 168, 168, 0.463);
+transition: all 500ms;
+text-align: center;
+}
+.episode button:hover{
+    box-shadow: 20px 20px 50px 15px rgb(29, 28, 28);
+    transform: translateY(-3px) scale(1.1);
+}
+.episode_rond{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.end{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    padding: none;
+    margin: none;
+    justify-items: left;
+}
+
+
+
+@media screen and (max-width: 800px) {
+   .episode button{font-size: 15px;}
+    .wrapper iframe{
+        margin: 0px;
+        width: 130px;
+        height: 73px;
+    }
+    .wrapper{display: grid;
+    grid-template-columns: auto auto; 
+    width: 100%;
+    /*background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ;*/
+    background-image: black;
+    gap: 2.5rem;   
+    align-items: center;
+    }
+
+    .grid_container{
+        /* grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap : 1rem ; */
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 370px));
+    }
+    .onglet{
+        
+        width: 100%;
+        font-size: 9px  ;
+        gap: 1rem;
+        margin-top: -30px;
+        grid-template-columns: repeat(10, minmax(170px, 1fr));
+
+    }
+    .carte img{
+        width: 130px !important; height: 190px !important;
+            animation: pics 1s ease-in-out 1s 1 both;
+            border-radius: 10px;
+            margin: 4px 0px ;
+     }    #ong{margin-top: 0px; width: 100%;}
+    .grid_item img {
+        height: 600px;
+        width: 360px;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+    /* #toph{display: none;} */
+    #back h1{padding: 110px 0px; font-size: 20px;}
+
+    .grid_container_top{
+        display: grid;
+        /*grid-template-columns: 650px auto;*/
+        grid-template-rows: auto auto;
+        grid-template-columns: auto;
+        justify-content: center;
+        justify-items: center;
+    }
+    .grid_container_top img{height: 300px !important; width: 180px !important; }
+    #nom{scale: 0.5; margin-bottom: 0px !important;}
+
+    #back{background-size: 100% 100%;
+        /* background-color: rgb(0, 0, 0) ;  */
+
+    }
+    
+}   
+@media screen and (max-width: 400px) {
+    .carte img{width: 100px !important; height: 160px !important;
+    margin:3px 0px ;}
+}
+

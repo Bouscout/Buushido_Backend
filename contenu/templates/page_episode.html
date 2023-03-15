@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', e=>{
+        var link = $('p').text() ;
+        var prim = $('#prim').text() ;
+        link = '' + link
+        function ios(){
+            return [
+                'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+if (ios() == true){
+    $('#hidden').attr('src', link) ; 
+}else{
+    if (prim == 'None'){
+        $('#hidden').attr('src', link) ; 
+} 
+}             
+    })
+</script>
+<style>
+    .ambiance{
+        --color_anime2:{{serie.couleur}};
+        background-image: linear-gradient(to bottom, #101010,#101010, #101010, #101010, var(--color_anime2));
+        background-attachment: fixed;
+    }
+    .wrapper{}
+</style>
+<body class="ambiance">
+<!-- {% if serie.background_tof %}
+<body id="back" style="background-image: radial-gradient(transparent, black), url({{serie.background_tof.url}}) ;
+background-attachment: fixed ;background-size: cover; background-repeat: no-repeat;
+background-position: center enter; background-attachment: fixed;">
+    {% else %}
+    <body style="background-image: linear-gradient(to bottom, rgb(29, 29, 39), rgb(3, 3, 3)) ;">
+    {% endif %} -->
+    <div class="topnav" id="myTopnav">
+        <a href="{% url 'redirect' 'home' %}" class="active"><i class="fa-solid fa-house-chimney-window "></i><span> Home</span></a>
+        <a href="{% url 'agenda' %}"><i class="fa-regular fa-calendar-days "></i><span> Agenda</span></a>
+        <a href="{% url 'redirect' 'Film' %}"><i class="fa-solid fa-clapperboard"></i><span> Film</span></a>
+        <a href="{% url 'redirect' 'mylist' %}"><i class="fa-solid fa-list"></i><span> Ma liste</span></a>
+        <div class="dropdown">
+          <button class="dropbtn" onclick="menu()"><i class="fa-brands fa-ioxhost "></i> Categories</button>
+          <section class="dropdown-content" id="myDropdown">
+            <div style="flex: 1;">
+                <a href="{% url 'redirect' 'Action' %}">Action</a>
+                <a href="{% url 'redirect' 'Aventure' %}">Aventure</a>
+                <a href="{% url 'redirect' 'Mystere' %}">Mystere</a>
+                <a href="{% url 'redirect' 'Horreur' %}"></i> Horreur</a>
+                <a href="{% url 'redirect' 'Comedie' %}">Comedie</a>
+                <a href="{% url 'redirect' 'Isekai' %}">Isekai</a>
+                <a href="{% url 'redirect' 'Fantaisie' %}">Fantaisie</a>
+                <a href="{% url 'redirect' 'Thriller' %}">Thriller</a>
+              </div><div style="flex: 2;">
+                <a href="{% url 'redirect' 'Drama' %}">Drama</a>
+                <a href="{% url 'redirect' 'Romance' %}">Romance</a>
+                <a href="{% url 'redirect' 'Slice of life' %}">Slice of life</a>
+                <a href="{% url 'redirect' 'Sci-fi' %}">Sci-fi</a>
+                <a href="{% url 'redirect' 'Seinen' %}">Seinen</a>
+          <a href="{% url 'redirect' 'Shonen' %}">Shonen</a>
+          <a href="{% url 'redirect' 'Shojo' %}">Shojo</a>
+          <a href="{% url 'redirect' 'Ecchi' %}">Ecchi</a>
+        </div>
+          </section>
+        </div> 
+        <a href="{% url 'ajax' %}"><span><i class="fa-solid fa-magnifying-glass"></i> Rechercher</span></a>
+        <a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i> Log in</span></a>
+        <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="menu2()">&#9776;</a>
+      </div>
+    
+
+<!--The top side is up, bottom side down-->
+
+
+
+
+
+{% for epi in episodes %}
+{% if epi.ref == id %}
+<p style="display: none;">{{epi.url2}}</p>
+<div id="prim">{{epi.url1}}</div>
+<style>
+    #shadow{
+        --color_anime2 : {{serie.couleur}};
+    }
+    #epi_top{width: 85%; margin: auto;}
+    @media (max-width: 1000px) {
+    #epi_top{
+        width: 100%;
+        top :0 ;
+        position: sticky;
+        z-index: 20;
+    }
+   
+   
+    }.episode{background-color: black; border: none;}
+   
+   
+    
+</style>
+<section id="epi_top">
+<div style="position: relative;;width:100% ;height:100% ; margin:auto;  padding-bottom: 56.25%; font-family: Verdana, Geneva, Tahoma, sans-serif;">    
+    <iframe id="hidden" style="width: 100%; height: 100% !important; position: absolute;" height="100%" width="100%" frameBorder="0" seamless="" scrolling="no" allowfullscreen src={{epi.url|safe}}></iframe>
+    <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px;">&nbsp;</div>
+</div>
+</section>
+<section class="episode_rond">
+    <div class="episode">
+        {% if end != 3 %}
+        <a href="previous/"><button style="border-radius: 60px; color:whitesmoke;background-color: black;">episode precedent</button></a>
+        {% endif %}
+        <a href="accueil/"><button style="border-radius: 60px; color:whitesmoke;background-color: black;">Accueil Serie</button></a>
+        {% if end != 2 %}
+        <a href="next/"><button style="border-radius: 60px; color:whitesmoke;background-color: black;">prochain episode</button></a>
+        {% endif %}
+    </div>
+</section>
+    <h2 style="font-size: 20px; font-weight: bolder; text-align: center ; margin-bottom: 20px;">{{epi.nom}} saison {{epi.saison}} episode {{epi.episode}}</h2>
+
+
+
+
+
+{% endif %}
+{% endfor %}
+
+
+
+
+
+
+<!--button onclick="filtrage()">click ici pour tester</button>
+<h4 id="test">la zone de test</h4-->
+    <section class="grid_container">
+        {% for epi in episodes  %}
+        {% if epi.saison %}
+        
+        <div class="ambiance" id="shadow" style="animation: fadein 300ms ease-in-out 0s 2 alternate;">
+            <a style="grid-row: 1; " href="{{epi.ref}}/"><div style="padding-bottom:-20px; padding-top: 8px; pointer-events: none;"><iframe style="border-radius: 10px;animation: pics 1s ease-in-out 1s 1 both;" src={{epi.url|safe}} allowfullscreen frameBorder="0"></iframe></div></a>
+            <div style="grid-row: 2; line-height: 50%; padding-left: 15px; ">
+            <h3 style="font-family: Verdana, Geneva, Tahoma, sans-serif; font-size :15px ; text-align: left; ">{{serie.name}}</h3>
+            {% if epi.special %}
+            <h3 style="text-align: left; ">Saison <span class="saison">{{epi.saison}}</span> episode {{epi.episode}} {{epi.special}}</h3>    
+            {% else %}
+            <h3 style="text-align: left; ">Saison <span class="saison">{{epi.saison}}</span> episode {{epi.episode}}</h3>    
+            {% endif %}    
+        {% else %}
+        <h3>{{serie.name}}</h3> 
+            <h3>episode {{epi.episode}}</h3> 
+        {% endif %}
+            </div>
+        
+        
+        </div>
+        
+        {% endfor %}
+        </section>
+
+<footer>
+    <section class="end">
+        <div>
+    <h2>Contact</h2>
+    <h3>Rejoignez notre discord</h3>
+    <h3>Faire un don Paypal</h3>
+        </div><div>
+    <h2>Partager</h2>
+    <h3>Whatsapp</h3>
+    <h3>Facebook</h3>
+    </div><div>
+    <h2>Signaler un bug</h2>
+    <h3>Envoyer un mail</h3>
+    <h3>Contacter directement si urgent</h3>
+    </div>
+    </section>
+    </footer>
+</body>
+
+<!--a href="https://imgbox.com/UofsDPd9" target="_blank"><img src="https://thumbs2.imgbox.com/3e/77/UofsDPd9_t.jpg" alt="image host"/></a-->
+{% endblock content %}

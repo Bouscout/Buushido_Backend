@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<script>
+     var selected = [] ;
+function add_choix(index){
+  if ($('#'+index.id).attr('class').includes('selected', 5)){
+    $('#'+index.id).removeClass('selected') ;
+    const pos = selected.indexOf($('#'+index.id).attr('id'));
+    if (pos > -1) { // only splice array when item is found
+  selected.splice(pos, 1); // 2nd parameter means remove one item only
+}
+  }else{
+  $('#'+index.id).addClass('selected') ;
+  selected.push($('#'+index.id).attr('id')) ;
+  }
+}
+
+function poster(){
+  const form = $('form') ;
+  for (let i =0; i < selected.length ; i++){
+    $('#sel'+i).val(''+selected[i]) ;
+    console.log('la valeur est:  ', $('#sel'+i).val) ;
+}
+form.submit()
+}
+
+</script>
+<body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ; background-attachment: fixed ;background-size: cover; ">
+    <style>
+        .carton{background-color: rgba(0, 0, 0, 0.495);
+        overflow: auto;
+        background-size: auto;
+        }
+       /* @keyframes selected {
+            from {border:rgba(1, 1, 66, 0.747) ;}
+            to {border: solid white;}
+            animation: selected 2s ease-in-out 0s infinite alternate ;
+        }*/
+        .selected{
+            border: 10px solid rgba(255, 255, 255, 0.733);
+        }
+    </style>
+<section style="display: grid; width:100% ;  margin :auto ;">
+{% if genres %}
+<h2 style="text-align: center; font-size:30px ;">Quelle genre aimer vous le plus ?</h2>
+{% for elem in genres %}
+<div style="
+display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) ; width: 100%; margin: auto; padding-bottom: 3rem;">
+<a style="text-decoration: None;" href="{% url 'watchlist' choix=elem %}"><div class="carton" style="color:antiquewhite;">{{elem}}</div></a>
+</div>
+{% endfor %}
+{% else %}
+    <section class="categorie">
+        {% for elem in videos %}
+        <div onclick="add_choix(this)" id="s{{elem.id}}" class="carte2">
+            <img src="{{elem.tof_url.url}}" alt="{{elem.name}}">
+            <h2 style="text-align: center;">{{elem.name}}</h2-->
+            </div>
+            {% endfor %}
+        </section>
+
+        <form method="post" style="display: none;">
+            {% csrf_token %}
+            <input id="sel0" name="lis" type="hidden" value="None">
+            <input id="sel1" name="lis" type="hidden" value="None">
+            <input id="sel2" name="lis" type="hidden" value="None">
+            <input id="sel3" name="lis" type="hidden" value="None">
+            <input id="sel4" name="lis" type="hidden" value="None">
+        </form>
+       <div class="carton"> <button style=" font-size: 35px;  bottom: 0;" onclick="poster()">Confirmer selection</button></div>
+{% endif %}
+</section>
+</body>
+{% endblock content %}

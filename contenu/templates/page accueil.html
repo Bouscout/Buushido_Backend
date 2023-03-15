@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+  <!-- font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;  -->
+<link rel="stylesheet" href="{% static 'accueil.css' %}">
+<script src="{% static 'accueil.js' %}"></script>
+<!-- heading -->
+<div class="topnav" id="myTopnav">
+  <a href="{% url 'redirect' 'home' %}" class="active"><i class="fa-solid fa-house-chimney-window "></i><span> Home</span></a>
+  <a href="{% url 'agenda' %}"><i class="fa-regular fa-calendar-days "></i><span> Agenda</span></a>
+  <a href="{% url 'redirect' 'Film' %}"><i class="fa-solid fa-clapperboard"></i><span> Film</span></a>
+  <a href="{% url 'redirect' 'mylist' %}"><i class="fa-solid fa-list"></i><span> Ma liste</span></a>
+  <div class="dropdown">
+    <a class="dropbtn" href="javascript:menu()"><i class="fa-brands fa-ioxhost "></i><span> Categories</span></a>
+  <section class="dropdown-content" id="myDropdown">
+    <div style="flex: 1;">
+        <a href="{% url 'redirect' 'Action' %}">Action</a>
+        <a href="{% url 'redirect' 'Aventure' %}">Aventure</a>
+        <a href="{% url 'redirect' 'Mystere' %}">Mystere</a>
+        <a href="{% url 'redirect' 'Horreur' %}"></i> Horreur</a>
+        <a href="{% url 'redirect' 'Comedie' %}">Comedie</a>
+        <a href="{% url 'redirect' 'Isekai' %}">Isekai</a>
+        <a href="{% url 'redirect' 'Fantaisie' %}">Fantaisie</a>
+        <a href="{% url 'redirect' 'Thriller' %}">Thriller</a>
+      </div><div style="flex: 2;">
+        <a href="{% url 'redirect' 'Drama' %}">Drama</a>
+        <a href="{% url 'redirect' 'Romance' %}">Romance</a>
+        <a href="{% url 'redirect' 'Slice of life' %}">Slice of life</a>
+        <a href="{% url 'redirect' 'Sci-fi' %}">Sci-fi</a>
+        <a href="{% url 'redirect' 'Seinen' %}">Seinen</a>
+  <a href="{% url 'redirect' 'Shonen' %}">Shonen</a>
+  <a href="{% url 'redirect' 'Shojo' %}">Shojo</a>
+  <a href="{% url 'redirect' 'Ecchi' %}">Ecchi</a>
+</div>
+</section>
+</div> 
+<a href="{% url 'ajax' %}"><span><i class="fa-solid fa-magnifying-glass"></i> Rechercher</span></a>
+
+{% if user %}
+<a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i>  {{user.username}}</span></a>
+{% else %}
+<a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i> Log in</span></a>
+{% endif %}
+<a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="menu2()">&#9776;</a>
+</div>
+ 
+
+  <!-- <body style="background-attachment: scroll;
+    background-image: linear-gradient(to bottom, #1b012c,#090909,#090909, #060606) "></body> -->
+<body>
+  <button onclick="reset()" class="next" id="left"><i class="fa-solid fa-chevron-left"></i></button>
+  <button onclick="intro()" class="next" style="right: 2%;"><i class="fa-solid fa-chevron-right"></i></button>
+  <section id="la_tete" style=" overflow: hidden; z-index: 1; ">
+    <section id="bigbro">
+        {% for serie in affiche.poster.all %}
+        <div class="contenu" style="background-image:linear-gradient(to right,#141414, transparent 90%), linear-gradient(to bottom, transparent 70%, rgb(26, 1, 56)), url('{{serie.poster_tof.url}}');">
+          <div class="boite">
+        <h1 class="titre" style="height: 10%; ">{{serie.name}}</h1>
+        <h3 class="text" style=" font-size: 1rem;  text-align: left; margin-left: 2%; ">{{serie.lesstext}}</h3>
+        <div class="details" >
+          <div class="small_details">
+          <!-- <div style="display: flex; width: 40%; height:20%;justify-content: center;"> -->
+                <h3>{{serie.genre_1}}</h3>
+                <h3> | </h3>
+                <h3>{{serie.genre_2}}</h3>
+                <h3> | </h3>
+                <h3>{{serie.genre_3}}</h3>
+              </div>
+              <div class="small_details">
+              <!-- <div style="display: flex; justify-content: center; width: 40%; height: 40%;"> -->
+                <h3>Publié : {{serie.date.month}} | {{serie.date.year}}</h3></div>
+              <div style="width: 100%; display: flex; justify-content: center; height: 100%;   ">
+                 <a href="{{serie.id}}/11/"><button class="watch" style="z-index: 5;"><i class="fa-regular fa-circle-play"></i> Regarder</button></a>
+                 <a href="{{serie.id}}/"><button class="watch" style="background-color: #141414c3; color: white;"><i class="fa-solid fa-circle-exclamation"></i> Details</button></a>
+              </div>
+          </div> 
+            </div>
+    </div>
+    {% endfor %}
+    <!-- separation -->
+    </section>
+  </section>
+  <!-- <hr style="width: 100%; height: 0px; color: white; margin-bottom: 3rem;"> -->
+  <section style="margin-top: -25vh; z-index: 6; position: relative;">
+  {% for onglet, name in onglets %}
+    <section class="cont1" style="display: grid; grid-template-rows: auto auto; margin-bottom: 0.5em; z-index: 6; ">
+        <h2 style="grid-row: 1; width: 98%; margin: 0.2em auto; ">{{name}}</h2>
+        <div class="container" style="grid-row: 2;">
+          {% for serie in onglet %}
+            <div class="lure">
+              <a href="{% url 'page_serie' id=serie.id %}">
+                <h2 class="play"><i class="fa-regular fa-circle-play fa-2xl"></i></h2>
+                <picture>
+      
+                  <source type="image/webp" srcset="{{serie.tof_url.url}}.webp">
+                  
+                  <source type="image/jpeg" srcset="{{serie.tof_url.url}}">
+                  
+                  <img src="{{serie.tof_url.url}}" alt="{{serie.name}}">
+                  
+                  </picture>        </a>
+             <!-- les info speciales -->
+             <section class="info">
+               <h2 style="text-align: center; font-size: 1.1rem; margin: -1rem 0rem;">{{serie.name}}</h2>
+               <p style="padding: 0px 5px; font-weight: 500; font-size: 16px;">{{serie.lesstext}}</p>
+              </section>
+              <!-- les info speciales -->
+            </div>
+            {% endfor %}
+          </div>
+        </section>
+        {% endfor %}
+  </section>
+  
+ 
+
+      </body>
+<hr>
+<footer>
+<section class="end">
+    <div>
+<h2>Contact</h2>
+<h3>Rejoignez notre discord</h3>
+<h3>Faire un don Paypal</h3>
+    </div><div>
+<h2>Partager</h2>
+<h3>Whatsapp</h3>
+<h3>Facebook</h3>
+</div><div>
+<h2>Signaler un bug</h2>
+<h3>Envoyer un mail</h3>
+<h3>Contacter directement si urgent</h3>
+</div>
+</section>
+</footer>
+{% endblock content %}

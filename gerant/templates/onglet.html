@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<body style="background-image: radial-gradient(rgb(41, 41, 48), rgb(3, 3, 3)) ; background-attachment: fixed ;background-size: cover; color: gray; ">
+    <style>
+        a {text-decoration: none;
+        color: wheat;}
+    </style>
+<section style="display: grid; width:60%; margin:auto;">
+<h2> formulaire pour onglet</h2>
+{% if onglets %}
+<h2 style="text-align: center; font-size:30px ;">Les onglets deja disponibles</h2>
+{% for x in onglets %}
+<a href="{{x.id}}/"><h2>Onglet : {{x.name}}</h2></a>
+{% endfor %}
+{% endif %}
+<a href="{% url 'ordre_onglet' %}"><h1 style="font-size: 20px; color: wheat;">Changer l'ordre des onglets sur la page d'accueil</h1></a>
+{% if supprim %}
+<a href="ordre/"><h1 style="font-size: 20px; color: wheat;">Changer l'ordre des series dans l'onglet</h1></a>
+{% endif %}
+<form method="post">
+{% csrf_token %}
+{{form.as_p}}
+
+<button type="submit">confirmer</button>
+</form>
+
+{% if option %}
+<form method="post">
+    {% csrf_token %}
+    <h1>Definissez l'ordre</h1>
+{% for x in option %}
+<label for="choix">{{x}}</label>
+<select name="choix">
+{% for serie in series %}
+<option value="{{serie.id}}">{{serie}}</option>
+{% endfor %}
+</select>
+{% endfor %}
+
+<button type="submit">Confirmer ordre</button>
+</form>
+{% endif %}
+
+{% if supprim %}
+
+<hr>
+<h1>supprimer le post</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ supprim.as_p }}
+    <h2>Voulez vous supprimer l'onglet en entier</h2>
+    <button type="submit">Supprimer</button>
+</form>
+<hr>
+<a href="diffuse/"><h2>Changez les elements sur la page d'accueil</h2></a>
+
+{% endif %}
+</section>
+<hr>
+<a href="{% url 'gerant_accueil' %}"><h1 style="font-size: 30px; text-align: center;">Retour accueil gerant</h1></a>
+</body> 
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+

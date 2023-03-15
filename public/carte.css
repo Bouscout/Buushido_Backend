@@ -1,0 +1,32 @@
+.petite_carte{
+        
+        scale: 0.9;
+        transition: all 500ms;
+        
+        box-shadow: 20px 20px 50px 15px black;
+        border-radius: 8px;
+    transition: all 500ms;
+    overflow: hidden;
+    scale: 0.9;
+    }
+    .petite_carte:hover{
+        box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35em 1.175em, rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em;
+    
+        transform: translateY(-3px) scale(1.1);
+    }
+    .petit_onglet{
+        /*scale: 0.85;*/
+    display: grid;
+    grid-template-columns: repeat(10, minmax(120px, 1fr));
+    overflow-x: scroll;
+    overflow-y: hidden;
+    width: 100%;
+    margin: auto;
+    gap: 0.5rem;
+    justify-items: center;
+    }
+    @media screen and (max-width: 800px) {
+        .petite_carte img{
+            width: 130px !important; height: 190px !important;
+        }
+    }

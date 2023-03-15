@@ -1,0 +1,43 @@
+.petite_carte{
+        
+    transition: all 500ms;
+    animation: fadein 500ms ease-in-out 0s 2 alternate;
+    /* box-shadow: 20px 20px 50px 15px black; */
+    /* box-shadow: 20px 5px 20px 15px black; */
+    box-shadow: rgb(0, 0, 0) 0px 20px 30px -10px;    border-radius: 4px;
+
+    margin: 30px 0px;
+transition: all 500ms;
+overflow: hidden;
+scale:1 ;
+/* scale: 0.9; */
+}
+.petite_carte:hover{
+    /* box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35em 1.175em, rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em; */
+
+    transform: translateY(-3px) scale(1.02);
+}
+.petit_onglet{
+    /*scale: 0.85;*/
+display: grid;
+grid-template-columns: repeat(10, minmax(160px, 1fr));
+overflow-x: scroll;
+overflow-y: hidden;
+width: 95%;
+margin: auto;
+gap: 1rem;
+justify-items: center;
+}   
+ .petite_carte img{
+        width: 150px !important; height: 210px !important;
+        animation: pics 1s ease-in-out 1s 1 both;
+        border-radius: 10px;
+    }
+#le_haut{
+text-align: center; font-size: 70px; padding: 150px 0px;
+}
+@media screen and (max-width: 800px) {
+#le_haut{font-size: 30px; padding: 5px 0px; text-align: left; padding-left: 18px; }
+}
+
+    

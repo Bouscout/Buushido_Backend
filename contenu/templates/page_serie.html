@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!-- navbar -->
+<div class="topnav" id="myTopnav">
+  <a href="{% url 'redirect' 'home' %}" class="active"><i class="fa-solid fa-house-chimney-window "></i><span> Home</span></a>
+  <a href="{% url 'agenda' %}"><i class="fa-regular fa-calendar-days "></i><span> Agenda</span></a>
+  <a href="{% url 'redirect' 'Film' %}"><i class="fa-solid fa-clapperboard"></i><span> Film</span></a>
+  <a href="{% url 'redirect' 'mylist' %}"><i class="fa-solid fa-list"></i><span> Ma liste</span></a>
+  <div class="dropdown">
+    <a class="dropbtn" href="javascript:menu()"><i class="fa-brands fa-ioxhost "></i><span> Categories</span></a>
+  <section class="dropdown-content" id="myDropdown">
+    <div style="flex: 1;">
+        <a href="{% url 'redirect' 'Action' %}">Action</a>
+        <a href="{% url 'redirect' 'Aventure' %}">Aventure</a>
+        <a href="{% url 'redirect' 'Mystere' %}">Mystere</a>
+        <a href="{% url 'redirect' 'Horreur' %}"></i> Horreur</a>
+        <a href="{% url 'redirect' 'Comedie' %}">Comedie</a>
+        <a href="{% url 'redirect' 'Isekai' %}">Isekai</a>
+        <a href="{% url 'redirect' 'Fantaisie' %}">Fantaisie</a>
+        <a href="{% url 'redirect' 'Thriller' %}">Thriller</a>
+      </div><div style="flex: 2;">
+        <a href="{% url 'redirect' 'Drama' %}">Drama</a>
+        <a href="{% url 'redirect' 'Romance' %}">Romance</a>
+        <a href="{% url 'redirect' 'Slice of life' %}">Slice of life</a>
+        <a href="{% url 'redirect' 'Sci-fi' %}">Sci-fi</a>
+        <a href="{% url 'redirect' 'Seinen' %}">Seinen</a>
+  <a href="{% url 'redirect' 'Shonen' %}">Shonen</a>
+  <a href="{% url 'redirect' 'Shojo' %}">Shojo</a>
+  <a href="{% url 'redirect' 'Ecchi' %}">Ecchi</a>
+</div>
+</section>
+</div> 
+<a href="{% url 'ajax' %}"><span><i class="fa-solid fa-magnifying-glass"></i> Rechercher</span></a>
+
+{% if user %}
+<a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i>  {{user.username}}</span></a>
+{% else %}
+<a href="{% url 'login' %}"><span><i class="fa-solid fa-user"></i> Log in</span></a>
+{% endif %}
+<a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="menu2()">&#9776;</a>
+</div>
+
+<!-- navbar -->
+<div id="msg"><h2></h2></div>
+<div id="ref" style="display: none;">{{ref}}</div>
+<div id="ref_id" style="display: none;">{{ref_id}}</div>
+<link rel="stylesheet" href="{% static 'page_serie.css' %}">
+<script type="text/javascript" src="{% static 'page_serie.js' %}"></script>
+<style>
+html{ --couleur : {{serie.couleur}}}
+</style>
+<body style="background-image: linear-gradient(to bottom, var(--couleur) 1% , #090909 1%); background-attachment: scroll;">
+  <div id="tete" style=" background-image: linear-gradient(to bottom, transparent 80%, var(--couleur)), url('{{serie.background_tof.url}}');">
+    <h1 style="font-size: 2rem;">{{serie.name}}</h1>
+    </div>
+    <section id="intro">
+      <div>
+      <img src="{{serie.tof_url.url}}">
+      <div class="controle">
+        <button onclick="regarde()">Regardez</button>
+      <button onclick="watch()"><i id="icon" class="fa-regular fa-circle-check fa-2xl"></i> <span id="watch">Watchlist</span></button>
+      <div style="display: grid; grid-template-columns: auto 35%; ">
+      <button>Partager</button>
+      <button style="text-align: center;">SOS</button>
+      </div>
+      </div></div>
+      <div class="details">
+        <h1 style="margin-left: 1rem;">{{serie.name}}</h1>
+        <h2><i>Statut : </i> en cours</h2>
+        <div style="display: flex; justify-content: space-evenly;font-size: 0.3rem ; width: 30%;">
+        <h2>{{serie.genre_1}}</h2>
+        <h2>{{serie.genre_2}}</h2>
+        </div>
+        <h3><i>{{serie.lesstext}}</i></h2>
+      </div>
+    </section>
+
+    <!-- separation -->
+
+    <hr width="100%" color="white" style="margin-bottom: 4rem;">
+    <div class="option">
+    <a style="text-decoration: none;" href="javascript:scrolling(0)"><h1 id="det">Details</h1></a>
+    <a style="text-decoration: none;" href="javascript:scrolling(1)"><h1 id="epis">Episodes</h1></a>
+    <a style="text-decoration: none;"  href="javascript:scrolling(2)"><h1 id="com">Commentaires</h1></a>
+    </div>
+    <section id="page"  >
+      <!-- premiere page -->
+      <section class="conteneur" style="grid-column: 1; ">
+      <div class="big_details">
+        <h1 style="font-size: 1.5rem;">{{serie.name}}</h1>
+        <h4><i>Genres : </i></h4>
+        <div style="display: flex; justify-content: space-around;font-size: 0.3rem ; width: 30%;">
+            <h2>{{serie.genre_1}}</h2>
+            <h2>{{serie.genre_2}}</h2>
+            <h2>{{serie.genre_3}}</h2>
+            <h2>{{serie.genre_4}}</h2>
+        </div>
+        <h3>{{serie.description}}</h3>
+        <h4><i>Posté : {{serie.date.month}} {{serie.date.year}}</i></h4>
+      </div>
+      <div style="display: grid; grid-template-rows: auto auto;">
+        <h1 style="grid-row: 1; margin-left: 1rem;">Similaires</h1>
+      <div class="simi" style="grid-row: 2;">
+        {% for serie in similaires %}
+        <a href="{% url 'page_serie' id=serie.id %}">
+          <picture>
+
+            <source type="image/webp" srcset="{{serie.tof_url.url}}.webp">
+            
+            <source type="image/jpeg" srcset="{{serie.tof_url.url}}">
+            
+            <img src="{{serie.tof_url.url}}" alt="{{serie.name}}">
+            
+            </picture>        </a>
+        {% endfor %}
+      </div>
+      </div>
+    </section>
+    <!-- end premiere page -->
+    <!-- deuxieme page -->
+    <section class="conteneur" style="grid-column: 2; overflow-y: scroll;">
+      <div id="sauce" onclick="showmenu()" style="margin: 1rem;">
+        <h2 style="font-size: 1.2rem; text-align: center;">Saison</h2>
+        <div id="menu_saison">
+          <a href="javascript:filtrage(0)"><button style="text-align: center;">...</button></a>
+          {% for x in saison %}
+          <a href="javascript:filtrage({{x}})"><button style="text-align: center;">Saison {{x}}</button></a>
+            {% endfor %}
+        </div>
+      </div>
+      <div class="epi_cont">
+        <!-- episode debut -->
+          {% for epi in episodes %}
+        <div class="epi">
+        <a href="{{epi.ref}}/"><div style="pointer-events: none;"><iframe src="{{epi.url}}" allowfullscreen frameBorder="0"></iframe></div></a>
+        <div>
+          <h3>{{serie.name}}</h3>
+          <h3>Saison <span class="saison">{{epi.saison}}</span> episode {{epi.episode}}</h3>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- fin contenu epi -->
+    </div>
+  </section> 
+    <!-- end de deuxieme page -->
+    <section class="conteneur" style="grid-column: 3;">
+        <div class="comment" style="display: grid; place-items: center;"><h1>Commentaires</h1></div>
+      </section>
+      <!-- end second page -->
+      </section>
+<!-- button to the top -->
+<div style="display: flex; justify-content: center; padding: 1.5rem 0rem;"><button onclick="window.scrollTo(0, 0)" style="width: 30vw; background-color: rgb(41, 1, 59); 
+font-size: 1.2rem; border: solid black; border-radius: 12px; color: white;"><i class="fa-solid fa-angles-up"></i> Remonter <i class="fa-solid fa-angles-up"></i></button></div>
+<!-- ending -->
+</body>
+<footer style="background-image:radial-gradient(rgba(2, 2, 33, 0.808), rgba(0, 0, 0, 0.301)); ">
+    <section class="end">
+        <div>
+    <h2>Contact</h2>
+    <h3>Rejoignez notre discord</h3>
+    <h3>Faire un don Paypal</h3>
+        </div><div>
+    <h2>Partager</h2>
+    <h3>Whatsapp</h3>
+    <h3>Facebook</h3>
+    </div><div>
+    <h2>Signaler un bug</h2>
+    <h3>Envoyer un mail</h3>
+    <h3>Contacter directement si urgent</h3>
+    </div>
+    </section>
+    </footer>
+
+<!--a href="https://imgbox.com/UofsDPd9" target="_blank"><img src="https://thumbs2.imgbox.com/3e/77/UofsDPd9_t.jpg" alt="image host"/></a-->
+{% endblock content %}

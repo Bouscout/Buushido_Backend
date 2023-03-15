@@ -1,0 +1,56 @@
+#couleur_ambiance{
+    display: none;
+}
+
+
+  
+@keyframes intro {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+body{
+    background-attachment: fixed ;
+    background-size: cover;
+    animation : intro ease 3s ;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color : white ;
+    font-size: 100%;
+    padding: none;
+    margin: none;  
+}
+.card {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background: #353535;
+color: #fff;
+border-radius: 0;
+transition: all 500ms;
+overflow: hidden;
+box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+align-self: center;
+justify-self: center;
+}
+.card:hover {
+box-shadow: rgba(2, 8, 20, 0.1) 0px 0.35em 1.175em, rgba(2, 8, 20, 0.08) 0px 0.175em 0.5em;
+transform: translateY(-3px) scale(1.1);
+}
+
+#test{
+    color: red;
+    background-color: white;
+    font-weight: bold;
+}
+#my_option{
+    font-weight: bold;
+}
+.saison{
+    font-weight: bold;
+}
+
