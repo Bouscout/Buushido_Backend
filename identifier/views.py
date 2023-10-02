@@ -6,9 +6,6 @@ from django.template import loader
 from identifier.forms import formulaire_connection, formulaire_incription
 from django.contrib.auth import authenticate, login, logout
 from contenu.models import video
-
-#to log in a user
-
 def home_login(request):
     forms = formulaire_connection()
     message = 'welcome'
@@ -30,10 +27,7 @@ def home_login(request):
         'form':forms,
         'messahe':message,
     }
-    #we will be able to edit the message in case we need to pass specific information to the user
     return HttpResponse(template.render(context, request))
-
-#to sign up a user
 def sign_up(request):
     forms = formulaire_incription()
     if request.method == 'POST':
@@ -48,8 +42,6 @@ def sign_up(request):
     }
     return HttpResponse(template.render(context, request))
 
-
-# function for the user to select a few shows in order to predict its favorite genre
 def add_watchlist(request, choix):
     videos = None
     genres = None
@@ -66,9 +58,7 @@ def add_watchlist(request, choix):
             request.user.anime_prefere.add(video.objects.get(id=s))
         return redirect('home')
     return render(request, 'watchlist.html', {'videos':videos, 'genres':genres})
-
-
-#function for testing some new functionnalities   
+    
 def test(request):
     return render(request, 'maintenance.html')
 

@@ -17,13 +17,21 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+# from identifier.views import maintenance
+from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
+# from rest_framework.authtoken import views
+
 
 
 urlpatterns = [
     path('', include('contenu.contenu_urls')),
     path('gerant/', include('gerant.gerant_urls')),
     path('', include('identifier.iden_urls')),
+    path('metrics/', include('metrics.urls_metrics')),
     path("admin/", admin.site.urls),
+    # path('api/token/', views.obtain_auth_token, name='token_obtain_pair'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]  
 if settings.DEBUG :
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -16,13 +16,13 @@ class onglet_serie(forms.ModelForm):
     editeur = forms.NullBooleanField(widget=forms.HiddenInput, initial=True)
     class Meta:
         model = onglet
-        fields = ('name','onglet1',)
+        fields = ('name','description_onglet','link_to','onglet1')
         widgets = {
         'onglet1': forms.CheckboxSelectMultiple()
         }
         labels = {
             'name': 'Nom de l\'onglet' ,
-            'onglet1':'choisissez en minimum sept(7) et maximum 10 (dix)' ,
+            'onglet1':'choisissez en minimum sept(7) et maximum 14' ,
         }
 
 #form to display all the shows by order in the home page of the gerant page
@@ -61,10 +61,10 @@ class formulaire_video(forms.ModelForm):
     widget=forms.TextInput(attrs={'type': 'color'}))
     class Meta:
         model = video
-        fields= ['name', 'posteur', 'genre_1', 'genre_2', 'genre_3','genre_4','couleur','note', 'en_cours', 'tof_url', 'background_tof', 'poster_tof' ,'description', 'lesstext', ]
+        fields= ['name', 'other_name', 'posteur', 'genre_1', 'genre_2', 'genre_3','genre_4','couleur','note', 'en_cours', 'tof_url', 'background_tof', 'background_tof2','poster_tof' ,'description', 'lesstext', 'saisons', 'has_film' ]
 
 #form to enter the create an episode to a show
 class formulaire_episode(forms.ModelForm):
     class Meta:
         model = la_video
-        fields = ['episode', 'url', 'url2', 'special']
+        fields = ['episode', 'url', 'url2', 'url3', 'special']

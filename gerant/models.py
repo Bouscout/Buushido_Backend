@@ -2,12 +2,39 @@ from django.db import models
 from contenu.models import video
 
 
-#these classes are for the different section in the main page of the website
-
 class onglet(models.Model):
     name = models.CharField(max_length=60, blank=True, null=True)
+    description_onglet = models.TextField(verbose_name='Small description for the content of the onglet'
+                                   ,blank=True,
+                                    null=True)
     onglet1 = models.ManyToManyField(video, blank=True)
     order_id = models.PositiveSmallIntegerField(default=0)
+    links_choix = (
+        ('Action' , 'Action'),
+        ('Aventure', 'Aventure'),
+        ('Comedie', 'Comedie'),
+        ('Drama', 'Drama'), 
+        ('Horreur', 'Horreur'),
+        ('Romance', 'Romance'),
+        ('Sci-fi', 'Sci-fi'),
+        ('Slice of life', 'Slice of life'),
+        ('Mystere', 'Mystere'),
+        ('Seinen', 'Seinen'),
+        ('Isekai', 'Isekai'),
+        ('Shonen', 'Shonen'),
+        ('Sport', 'Sport'),
+        ('Fantaisie', 'Fantaisie'),
+        ('Shojo', 'Shojo'),
+        ('Thriller', 'Thriller'),
+        ('Combat', 'Combat'),
+        ('School life', 'School life'),
+        ('Music', 'Music'),
+        ('Ecchi', 'Ecchi'),
+        ('Autres', 'Autres'),
+        ('Classique', 'Classique'),
+        ('Film', 'Film'),
+    )
+    link_to = models.CharField('conduit vers : ', max_length = 50, choices= links_choix, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -23,11 +50,9 @@ class affichage(models.Model):
     def __str__(self) :
         return self.name
 
-
-#class created for the implementation of a potential calendar function
 class calendrier(models.Model):
     nom = models.CharField(max_length=10)
-
+    # upgrade = models.FileField(upload_to='')
     Dimanche = models.CharField(max_length=50, default='N/A')
     Lundi = models.CharField(max_length=50, default='N/A')
     Mardi = models.CharField(max_length=50, default='N/A')
@@ -38,5 +63,3 @@ class calendrier(models.Model):
 
     def __str__(self):
         return self.nom
-
-

@@ -1,15 +1,13 @@
 from django.shortcuts import redirect
 from django.urls import path
 from . import views
-
-#different in production
-#code set up to allow web scrapper app built and shared to the authorized user to let the app do the CRUD operations for them
 SECRET_CODE = 'hagdcdoebds5421542'
 urlpatterns = [
     path('', views.accueil_gerant, name='gerant_accueil'),
     path('onglet/<int:id>/', views.edit_onglet, name='onglet_edit'),
     path('onglet/<int:id>/ordre/', views.ordre_serie, name='ordre_serie'),
     path('onglet/', views.create_onglet, name='onglet'),
+    path('parser/', views.parser, name='parser'),
     path('onglet/diffuse/', views.diffuser, name='diffusion'),
     path('onglet/diffuse/order', views.ordre_onglet, name='ordre_onglet'),
     path('serie/', views.poster_video, name='nouvelle_serie'),

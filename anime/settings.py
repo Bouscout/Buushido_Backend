@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import datetime
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'thisisnotthesecretkeyinproductionlol')
+#SECRET_KEY = "django-insecure-2svs%xk0icjk0ju^3#*db-m%6xhaww8!gi6+q)i@-l$tqgwvjp"
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#ps$gijwefjlidlkscjhvreibverkjrevubkrevjkrubjujbk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -32,9 +34,10 @@ DEBUG = True
 
 #DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['https://buushido.ml', 'http://buushido.ml']
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['buushido.ml']
 
-CSRF_TRUSTED_ORIGINS = ['https://buushido.ml','http://localhost:3000']
+#CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
 
 
 # Application definition
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
     "contenu.apps.ContenuConfig",
     "colorfield",
     "gerant" ,
+    "metrics",
     "whitenoise.runserver_nostatic" ,
     "django_extensions" ,
     "rest_framework",
@@ -92,21 +96,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "anime.wsgi.application"
 
-
+DATABASE_ROUTERS = ['metrics.metrics_router.extra_db_router']
 # Database
+# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {
 
   'default': {
 
     'ENGINE': 'django.db.backends.mysql',
 
-    'NAME': 'put your database name here',
+    'NAME': 'buushido_data_sbe',
 
-    'USER': 'your_username',
+    'USER': 'buushido_IcyGhost_testeur',
 
-    'PASSWORD': 'your password',
+    'PASSWORD': 'theworldo12',
 
-    'HOST': 'localhost',
+    'HOST': 'nl1-ss107.a2hosting.com',
 
     'PORT': '3306',
 
@@ -115,6 +120,29 @@ DATABASES = {
       'sql_mode': 'traditional',
 
     },
+
+  },
+
+  'extra_db' : {
+
+    'ENGINE': 'django.db.backends.mysql',
+
+    'NAME': 'buushido_extra_sbe',
+
+    'USER': 'buushido_IcyGhost_testeur',
+
+    'PASSWORD': 'theworldo12',
+
+    'HOST': 'nl1-ss107.a2hosting.com',
+
+    'PORT': '3306',
+
+    'OPTIONS': {
+
+      'sql_mode': 'traditional',
+
+    },
+
 
   }
 
@@ -134,8 +162,27 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
+#handling session token for both web case and mobile case using the rest session solution
+# and the simple jwt one
+REST_FRAMEWORK = {
+    #This piece will make all request be authentucated before being processed
+        # 'rest_framework.permissions.IsAuthenticated',
+    # 'DEFAULT_PERMISSION_CLASSES' : (
+    #     'rest_framework.permissions.IsAdminUser',
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES' : (
+    # 'rest_framework.authentication.TokenAuthentication',
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'rest_framework.authentication.SessionAuthentication',
+    )
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'USER_ID_CLAIM' : 'id',
+    }
 
-
+# Internationalization
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -153,7 +200,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-#this section is set up like this to accomodate the server used in production
 STATIC_ROOT = BASE_DIR.joinpath('public')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -165,10 +211,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'identifier.utilisateur'
 
-MEDIA_ROOT = BASE_DIR.joinpath('media/')
+# MEDIA_ROOT = 'home/buushido/buushido/public/media/'
+MEDIA_ROOT = BASE_DIR.joinpath('public/media')
 
-MEDIA_URL = "/media/"
+MEDIA_URL = ""
+# for debug mode
+# MEDIA_ROOT = BASE_DIR.joinpath('media/')
+# MEDIA_URL = "/media/"
 
-#it is not set up like this in production
+
 CORS_ORIGIN_ALLOW_ALL = True
 
+# disabling limits for number of request for posting bot
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
+# CORS_ALLOWED_ORIGINS = [
+# "https://buushido.ml",
+# "http://buushido.ml",
+# "http://localhost:3080",
+# "http://127.0.0.1:9000"
+# ]

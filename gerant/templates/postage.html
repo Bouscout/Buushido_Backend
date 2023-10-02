@@ -5,6 +5,8 @@
         a {text-decoration: none;
         color: wheat;}
     </style>
+
+<!-- formulaire for posting a new show alltogether -->
 <section style="display: grid; width:60%; margin:auto;">
     {% if form2 %}
     <form method="post" enctype="multipart/form-data">
@@ -19,65 +21,111 @@
         {{supprim}}
         <button type="submit">Supprimer</button>
     </form>
-   
+<!-- formulaire for posting a new show alltogether -->
+    
     {% else %}
+    
+    
+<!-- this is going to be the form for posting the episodes for this show -->
     {% if form %}
-    <form method="post">
-    {% csrf_token %}    
+<form method="post">
+    {% csrf_token %}  
+    
+    <!-- links for different options of operations on the show selected -->
     {% if serie %}
-        <h2>{{serie.name}}</h2>
-        <h3><a href="{% url 'modifier_serie' id=serie.id %}" >modifier info de la serie</a></h3>
-        
-        <h3><a href="{% url 'supprimer_epi' id=serie.id %}">supprimer des episodes</a></h3>
-        {% endif %}
-        <label for="saison">La saison correspondante : </label>
-        <input type="number" name="saison" min="1" max="10">
-            {{form.as_p}}
+    <h2>{{serie.name}}</h2>
+    <h3><a href="{% url 'modifier_serie' id=serie.id %}" >modifier info de la serie</a></h3>
+    
+    <h3><a href="{% url 'supprimer_epi' id=serie.id %}">supprimer des episodes</a></h3>
+    {% endif %}
+    <!-- links for different options of operations on the show selected -->
+    
+    <!-- formulaire options     -->
+    <label for="saison">La saison correspondante : </label>
+    <input type="number" name="saison" min="1" max="10">
+    <br>
+
+    <label for="saison_name">Mettez le nom correspondant a la saison, laissez vide si aucun nom : </label>
+    <input type="text" name="saison_name">
+    <br>
+
+    <label for="is_film">Cochez la case si c'est un film : </label>
+    <input name="is_film" type="checkbox">
+    <br>
+
+    {{form.as_p}}
     <button type="submit">confirmer</button>
     {% endif %}
     {% endif %}
-    {% if form3 %}
-    <h2>{{serie.name}}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for elem in video %}
-        <input type="checkbox" name="episodes" value="{{elem.id}}">{{elem}}<br>
-        {% endfor %}
-        <button type="submit">Supprimer les elements</button>
-    </form>
-    <h2><a href="{% url 'gerant_accueil' %}">Retourner accueil gerant</a></h2>
-    {% endif %}
+<!-- this is going to be the form for posting the episodes for this show -->
+    
 
-    {% if form4 %}
-    <form method="post">
+<!-- this is the formulaire for deleting some episodes of a show -->
+{% if form3 %}
+<h2>{{serie.name}}</h2>
+<form method="post">
+    {% csrf_token %}
+    {% for elem in video %}
+    <input type="checkbox" name="episodes" value="{{elem.id}}">{{elem}}<br>
+    {% endfor %}
+    <button type="submit">Supprimer les elements</button>
+</form>
+<h2><a href="{% url 'gerant_accueil' %}">Retourner accueil gerant</a></h2>
+{% endif %}
+<!-- this is the formulaire for deleting some episodes of a show -->
+
+
+<!-- formulaire for posting episodes for the show but this time in single formulaire -->
+{% if form4 %}
+<form method="post">
     {% csrf_token %}    
     {% if serie %}
-        <h2>{{serie.name}}</h2>
-        <h3><a href="{% url 'modifier_serie' id=serie.id %}" >modifier info de la serie</a></h3>
-        <h3><a href="1/">modifier lien des episodes</a></h3>
-        <h3><a href="{% url 'supprimer_epi' id=serie.id %}">supprimer des episodes</a></h3>
-        {% endif %}
-        <label for="saison">La saison correspondante : </label>
-        <input type="number" name="saison" min="1" max="10">
+    <h2>{{serie.name}}</h2>
+    <h3><a href="{% url 'modifier_serie' id=serie.id %}" >modifier info de la serie</a></h3>
+    <h3><a href="1/">modifier lien des episodes</a></h3>
+    <h3><a href="{% url 'supprimer_epi' id=serie.id %}">supprimer des episodes</a></h3>
+    {% endif %}
+
+    <!-- option for the form -->
+    <label for="saison">La saison correspondante : </label>
+    <input type="number" name="saison" min="1" max="10">
+    <br>
+
+    <label for="saison_name">Mettez le nom correspondant a la saison, laissez vide si aucun nom : </label>
+    <input type="text" name="saison_name">
+    <br>
+
+    <label for="is_film">Cochez la case si c'est un film : </label>
+    <input name="is_film" type="checkbox">
+    <br>
+
     {{form4.as_p}}
     <button type="submit">confirmer</button>
     <hr>
+    <!-- option for the form -->
+
+    <!-- in case we want to have more form -->
     <a href="{% url 'plusieurs' id=serie.id %}"><h2 style="text-align: center;">Poster plusieurs episodes en meme temps</h2></a>
+    <!-- in case we want to have more form -->
     {% endif %}
+<!-- formulaire for posting episodes for the show but this time in single formulaire -->
 
-    {% if form5 %}
-    {% for video in serie.la_video_set.all %}
-    <a href="{% url 'modifier_lien' id=serie.id il=video.id %}"><h2 style="text-align: center;">{{video}}</h2></a>
-    {% endfor %}
-    <hr>
-    <form method="post">
-        {% csrf_token %}
-        {{form5.as_p}}
-        <input type="submit" value="Confirmer modification">
-    </form>
-    <h2><a href="{% url 'gerant_accueil' %}">Retourner accueil gerant</a></h2>
 
-    {% endif %}
+<!-- formulaire for changing the links of the episodes of a show -->
+{% if form5 %}
+{% for video in serie.la_video_set.all %}
+<a href="{% url 'modifier_lien' id=serie.id il=video.id %}"><h2 style="text-align: center;">{{video}}</h2></a>
+{% endfor %}
+<hr>
+<form method="post">
+    {% csrf_token %}
+    {{form5.as_p}}
+    <input type="submit" value="Confirmer modification">
+</form>
+<h2><a href="{% url 'gerant_accueil' %}">Retourner accueil gerant</a></h2>
+{% endif %}
+<!-- formulaire for changing the links of the episodes of a show -->
+
 </section>
 </body>
 {% endblock content %}

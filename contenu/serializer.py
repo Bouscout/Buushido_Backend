@@ -1,46 +1,60 @@
 from rest_framework import serializers
-from contenu.models import video, la_video
+from contenu.models import video, la_video, films
 from gerant.models import onglet, affichage
 
-
-#serializer for the shows on the home page
 class video_serial(serializers.ModelSerializer):
     class Meta:
         model = video   
-        fields = ('name', 'background_tof', 'id')
+        fields = ('name', 'background_tof', 'id', 'tof_url', 'note', "lesstext", "genre_1", "genre_2", "genre_3","genre_4", "en_cours")
 
-#serializer for the show in categories page
+class onglet_special(serializers.ModelSerializer):
+    class Meta :
+        model = video
+        fields = ('name', 'background_tof' ,'background_tof2', 'id', 'note')
+
 class categorie_serial(serializers.ModelSerializer):
     class Meta :
         model = video
-        fields = ('name', 'tof_url', 'id')
+        fields = ('name', 'tof_url', 'background_tof', 'id')
 
-#optional
 class onglet_serial(serializers.ModelSerializer):
     class Meta:
         model = onglet
         field = []
 
-#serializer for the poster on the home page, but we will probably keep that part static on the build part with astro
 class posterialiseur(serializers.ModelSerializer):
     class Meta:
         model = video
-        fields = ('name', 'lesstext', 'poster_tof', 'id', )
+        fields = ('name', 'lesstext', 'poster_tof', 'tof_url', 'id', 'genre_1', 'genre_2', 'genre_3')
 
-#serializer for the episodes of a show
 class episode_serializer(serializers.ModelSerializer):
     class Meta :
         model = la_video
-        fields = ('episode', 'saison', 'url', 'ref')
+        fields = ('episode', 'saison', 'url', 'url2', 'url3', 'special')
 
-#serializer for the different attributes of a show
+class episode_info(serializers.ModelSerializer):
+    serie = video_serial(source="nom", read_only=True)
+    # photo = serializers.SlugRelatedField(queryset="nom",read_only=True ,slug_field="tof_url")
+
+    class Meta :
+        model = la_video
+        fields = ("nom", "episode", "saison", "date", "serie")
+
+class film_serializer(serializers.ModelSerializer):
+    class Meta :
+        model = films
+        fields = ('saison', 'url', 'url2', 'url3', 'special_name')
+
 class detail_serie_serializer(serializers.ModelSerializer):
     class Meta :
         model = video
-        fields = ('id','name', 'description', 'genre_1', 'genre_2', 'genre_3', 'genre_4', 'tof_url', 'background_tof', 'note', 'date', 'en_cours')
+        fields = ('id','name', 'description', 'genre_1', 'genre_2', 'genre_3', 'genre_4', 'tof_url', 'background_tof', 'note', 'date', 'en_cours', 'saisons', 'has_film', 'couleur')
 
-#serializer for the see all page
+
 class voir_tout_serial(serializers.ModelSerializer):
     class Meta:
         model = video
         fields = ('id','name','note', 'en_cours' ,'lesstext', 'genre_1', 'genre_2', 'genre_3','genre_4')
+
+
+

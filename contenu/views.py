@@ -3,19 +3,6 @@ from gerant.models import affichage, calendrier
 from contenu.models import video
 from django.http import JsonResponse
 import random
-
-
-
-
-
-#this section concerns the first version of the website where every page was server rendered
-#it is not relevant anymore as more modern frameworks allow to improve the overall performances of the website
-#I suggest you go to "view_serial.py" where all the magic is happening for the website
-
-
-
-
-
 def maison(request):
     if request.user.is_anonymous:
         return render(request, 'maintenance.html')
@@ -174,7 +161,8 @@ class Trie :
         self.output = []
         self.adding(node, pref[:-1])
         return self.output
-#let's add all the data 
+        
+# let's add all the data 
 every = video.objects.all()
 diconame = {}
 tr = Trie()
