@@ -29,7 +29,7 @@ class UserParamsManager :
         self.user_centroid = np.array([np.frombuffer(x.centroid, dtype=data_type) for x in u_cluster])
 
         # predict the user parameters from the movies watched
-        with open("contenu/recommender_system/model_parameters/user_model_params.pickle", "rb") as fichier :
+        with open("contenu/recommender_system/model_parameters/user_latent_model.pickle", "rb") as fichier :
             self.model = network([128, 128, 64], "relu")
             params = pickle.load(fichier)
             activations = [Relu(), Relu(), linear()]
@@ -43,7 +43,7 @@ class UserParamsManager :
         for id in show_ids :
             try :
                 array_byte = video.objects.get(id=id).feature_array
-                array_byte = np.frombuffer(array_byte)
+                array_byte = np.frombuffer(array_byte, dtype=np.float64)
                 show_params.append(array_byte)
 
             except ValueError :
@@ -66,7 +66,7 @@ class UserParamsManager :
         all_features = self.get_series_np(shows_ids)
         user_feature = self.decaying_average(all_features)
 
-        user_param = self.model(user_feature)[0]
+        user_param = self.model(user_feature.reshape(1, -1))
 
         def distance(x, y) :
             distance = np.sum((x - y)**2)
@@ -76,12 +76,12 @@ class UserParamsManager :
 
         actual_distance = 100_000
         for cluster, center in enumerate(self.user_centroid) :
-            dist = distance(center, user_param)
+            dist = distance(center, user_param[0])
             if dist < actual_distance :
                 found_cluster = cluster + 1
                 actual_distance = dist
 
-        return found_cluster
+        return found_cluster, user_param
     
     def find_cluster_top_3(self, cluster_id):
         """

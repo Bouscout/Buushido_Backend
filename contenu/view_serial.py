@@ -138,25 +138,25 @@ def cache_posters():
 
 
 # =================== All caching set up ===========================
-cache.adding('posters', cache_posters())
+# cache.adding('posters', cache_posters())
 
 
-cache.adding('onglet1', pour_onglet_old(onglets[:2], first=True))
-cache.adding('onglet2', pour_onglet_old(onglets[2:4]))
-cache.adding('onglet3', pour_onglet_old(onglets[4:6]))
-cache.adding('onglet4', pour_onglet_old(onglets[6:8]))
-cache.adding('onglet5', pour_onglet_old(onglets[8:]))
+# cache.adding('onglet1', pour_onglet_old(onglets[:2], first=True))
+# cache.adding('onglet2', pour_onglet_old(onglets[2:4]))
+# cache.adding('onglet3', pour_onglet_old(onglets[4:6]))
+# cache.adding('onglet4', pour_onglet_old(onglets[6:8]))
+# cache.adding('onglet5', pour_onglet_old(onglets[8:]))
 
-cache.adding('recent', pour_most_recent())
+# cache.adding('recent', pour_most_recent())
 
-cache.adding('onglet_special', cache_special())
+# cache.adding('onglet_special', cache_special())
 
-categorie = ['Action', 'Aventure', 'Mystere', 'Horreur', 'Isekai', 'Comedie', 'Fantaisie',
-            'Shonen', 'Romance', 'Sci-fi', 'Ecchi', 'Drama', 'Seinen', 'Slice of life', 'Thriller',
-            'Shojo', 'Classique', 'Film']
+# categorie = ['Action', 'Aventure', 'Mystere', 'Horreur', 'Isekai', 'Comedie', 'Fantaisie',
+#             'Shonen', 'Romance', 'Sci-fi', 'Ecchi', 'Drama', 'Seinen', 'Slice of life', 'Thriller',
+#             'Shojo', 'Classique', 'Film']
 
-for elem in categorie :
-    cache.adding(elem.lower(), cache_categorie(elem))
+# for elem in categorie :
+#     cache.adding(elem.lower(), cache_categorie(elem))
 
 
 # =================== All caching set up ===========================

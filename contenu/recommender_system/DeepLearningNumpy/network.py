@@ -265,3 +265,4 @@ class network():
 
         self.layers = layer
         self.activ_layers = activ_layer
+        self.first_feed = True
