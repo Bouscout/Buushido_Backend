@@ -28,7 +28,7 @@ class SeriesFetcher:
         
         self.distribution = [45, 35, 20]
 
-    def retrieve_series(self, video_cluster) -> list[video]:
+    def retrieve_series(self, video_cluster):
         clust = cluster.objects.get(id=video_cluster)
         videos = clust.all_videos()
         return videos

@@ -8,6 +8,7 @@ from contenu.serializer import video_serial
 from contenu.models import video
 from contenu.recommender_system.recommend import Recommender
 from time import time
+import json
 
 model = Recommender()
 
@@ -44,21 +45,22 @@ def send_recommendations(request):
 @api_view(["POST"])
 def post_label(request):
     if request.method == "POST" :
-        posted_infos = request.data
+        posted_infos = json.loads(request.body.decode("utf-8"))
 
         # we get the user input params
-        user_param = posted_infos.get("userParams")
+        user_param = posted_infos["userParams"]
 
-        series_w_label = posted_infos.get("serieLabels") # pairs of serieId|label,...
+        series_w_label = posted_infos["serieLabels"] # dict {showId : label}
 
         def write_line(serie, label) :
             with open("contenu/recommender_system/logs/log.csv", "a") as fichier :
-                text = f"{user_param},{serie},{label}\n"
+                text = f"\n{user_param},{serie},{label}"
                 fichier.write(text)
 
-        for pair in str(series_w_label).split(",") :
-            serie, label = str(pair).split("|")
+        for serie, label in series_w_label.items() :
             write_line(serie, label)
-    print("went through")
-    return Response(status=status.HTTP_202_ACCEPTED)
 
+        return Response(status=status.HTTP_202_ACCEPTED)
+
+    else :
+        return Response(status=status.HTTP_400_BAD_REQUEST)
