@@ -30,7 +30,5 @@ class view_test(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request):
-        print('c\'est bon il est dans le system')
-        print('the user is : ', request.user, 'the id is : ',request.user.id)
-        message = "connexion reussi bruh"
-        return Response(message, status=status.HTTP_202_ACCEPTED)
+        username = str(request.user)
+        return Response(username, status=status.HTTP_202_ACCEPTED)
