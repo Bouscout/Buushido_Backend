@@ -22,6 +22,7 @@ urlpatterns = [
     # recommendations urls
     path('api/recommendations', recommender_view.send_recommendations, name='send_recommendations'),
     path('api/post_label', recommender_view.post_label, name='post_label'),
+    path('api/recommend_popular', recommender_view.send_popular_recommendations, name='send_popular'),
     
 
     path('api1/', view_serial.onglet_part1, name='api_test'),

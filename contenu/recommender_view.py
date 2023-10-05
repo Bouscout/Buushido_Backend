@@ -64,3 +64,17 @@ def post_label(request):
 
     else :
         return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(["GET"])
+def send_popular_recommendations(request):
+    start = time()
+    populars = model.recommnend_popular()
+    runtime = time() - start
+
+    videos = video_serial(populars, many=True)
+    data = {
+        "series" : videos.data,
+        "runtime": runtime,
+    }
+
+    return Response(data, status=status.HTTP_200_OK)

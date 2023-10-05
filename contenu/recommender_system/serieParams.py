@@ -1,6 +1,6 @@
 
 
-from contenu.models import video, cluster
+from contenu.models import video, cluster, special_cluster
 from identifier.models import user_cluster
 from contenu.recommender_system.DeepLearningNumpy.network import network
 from contenu.recommender_system.DeepLearningNumpy.activations import Relu, linear, sigmoid
@@ -70,6 +70,32 @@ class SeriesFetcher:
         return [x[1] for x in ranked_series][:15]
 
                 
+    def picks_from_popular(self, max_attempt=100):
+        """
+        will return 15 unique elements if it finds enough unique elements within the specified number of iterations.
+        If it cannot find 15 unique elements, it will return fewer than 15.
+        """
+        max_attempt = max_attempt
+        pick_size = 5
+        # we will pick 5 elements randomly from all three popular cluster :
+        clusters = special_cluster.objects.all()
+
+        picks = set()
+        complete = False
+        for _ in range(max_attempt) :
+            if complete :
+                return list(picks)[:15]
+            
+            for clust in clusters :
+                videos = clust.videos.all()
+                picks = picks.union(set(np.random.choice(videos, size=pick_size)))
+
+                if len(picks) >= 15 :
+                    complete = True
+                    break
+
+        return list(picks)
+           
 
 
 
