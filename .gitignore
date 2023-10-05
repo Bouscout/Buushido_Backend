@@ -2,4 +2,6 @@
 
 .vscode
 
-log/*
+logs/*
+
+.env

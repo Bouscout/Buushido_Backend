@@ -53,7 +53,7 @@ def post_label(request):
         series_w_label = posted_infos["serieLabels"] # dict {showId : label}
 
         def write_line(serie, label) :
-            with open("contenu/recommender_system/logs/log.csv", "a") as fichier :
+            with open("logs/log.csv", "a") as fichier :
                 text = f"\n{user_param},{serie},{label}"
                 fichier.write(text)
 

@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import dj_database_url
 import datetime
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-import os
-#SECRET_KEY = "django-insecure-2svs%xk0icjk0ju^3#*db-m%6xhaww8!gi6+q)i@-l$tqgwvjp"
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#ps$gijwefjlidlkscjhvreibverkjrevubkrevjkrubjujbk')
+
+secret_key = os.getenv("secret_key")
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', secret_key)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -99,6 +102,11 @@ WSGI_APPLICATION = "anime.wsgi.application"
 DATABASE_ROUTERS = ['metrics.metrics_router.extra_db_router']
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
+username = os.getenv("database_username")
+password = os.getenv("database_password")
+host = os.getenv("database_host")
+
 DATABASES = {
 
   'default': {
@@ -107,11 +115,11 @@ DATABASES = {
 
     'NAME': 'buushido_data_sbe',
 
-    'USER': 'buushido_IcyGhost_testeur',
+    'USER': username,
 
-    'PASSWORD': 'theworldo12',
+    'PASSWORD': password,
 
-    'HOST': 'nl1-ss107.a2hosting.com',
+    'HOST': host,
 
     'PORT': '3306',
 
@@ -129,11 +137,11 @@ DATABASES = {
 
     'NAME': 'buushido_extra_sbe',
 
-    'USER': 'buushido_IcyGhost_testeur',
+    'USER': username,
 
-    'PASSWORD': 'theworldo12',
+    'PASSWORD': password,
 
-    'HOST': 'nl1-ss107.a2hosting.com',
+    'HOST': host,
 
     'PORT': '3306',
 
@@ -178,7 +186,7 @@ REST_FRAMEWORK = {
 }
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=5),
     'USER_ID_CLAIM' : 'id',
     }
 
