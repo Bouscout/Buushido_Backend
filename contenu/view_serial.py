@@ -33,9 +33,7 @@ def pour_most_recent(end=datetime.now()):
     return sample_episode.data
 
     
-
-
-def pour_onglet_old(liste, first=False):
+def pour_onglet_old(liste:list[onglet], first=False):
     to_send = []
     for onglet in liste:
         if first == True :
@@ -52,10 +50,12 @@ def pour_onglet_old(liste, first=False):
 
     return to_send
 
-def pour_onglet(id, first=False):
-    id = int(id) - 1
-    all_onglets = onglets
-    if id == 20 :
+def pour_onglet(id:int, first=False):
+    id = int(id) - 1 # index in onglet array
+    all_onglets = onglets # onglet array
+
+    # load all the other onglets beside the 9th index all at once
+    if id == 20 : # wildcard is 20 
         to_send = []
         selection = all_onglets[9:]
         for onglet in selection :
@@ -75,7 +75,6 @@ def pour_onglet(id, first=False):
 
     else : 
         try : 
-
             onglet = all_onglets[id]
             if first == True :
                 videos = video_serial(onglet.onglet1.all().order_by('order_id'), many=True)
@@ -140,16 +139,22 @@ def cache_posters():
 # =================== All caching set up ===========================
 cache.adding('posters', cache_posters())
 
+# fetching one by one
+cache.adding('onglet1', pour_onglet(id=1, first=True))
+cache.adding('onglet2', pour_onglet(id=2))
 
-cache.adding('onglet1', pour_onglet_old(onglets[:2], first=True))
-cache.adding('onglet2', pour_onglet_old(onglets[2:4]))
-cache.adding('onglet3', pour_onglet_old(onglets[4:6]))
-cache.adding('onglet4', pour_onglet_old(onglets[6:8]))
-cache.adding('onglet5', pour_onglet_old(onglets[8:]))
+# fetching by group
+cache.adding('onglet3', pour_onglet_old(onglets[2:4]))
+cache.adding('onglet4', pour_onglet_old(onglets[4:6]))
+cache.adding('onglet5', pour_onglet_old(onglets[6:8]))
+cache.adding('onglet6', pour_onglet_old(onglets[8:]))
 
+# onglet special
+cache.adding('onglet_special', cache_special())
+
+# most recent additions
 cache.adding('recent', pour_most_recent())
 
-cache.adding('onglet_special', cache_special())
 
 categorie = ['Action', 'Aventure', 'Mystere', 'Horreur', 'Isekai', 'Comedie', 'Fantaisie',
             'Shonen', 'Romance', 'Sci-fi', 'Ecchi', 'Drama', 'Seinen', 'Slice of life', 'Thriller',

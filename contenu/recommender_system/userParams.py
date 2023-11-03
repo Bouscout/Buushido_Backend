@@ -43,8 +43,10 @@ class UserParamsManager :
         for id in show_ids :
             try :
                 array_byte = video.objects.get(id=id).feature_array
-                array_byte = np.frombuffer(array_byte, dtype=np.float64)
-                show_params.append(array_byte)
+
+                if array_byte :
+                    array_byte = np.frombuffer(array_byte, dtype=np.float64)
+                    show_params.append(array_byte)
 
             except ValueError :
                 pass
