@@ -10,7 +10,7 @@ class Anime_Serializer(serializers.ModelSerializer):
 
     class Meta :
         model = anime
-        fields = ("title", "description", "nsfw", "portrait_pic", "completed", "studios", "num_episodes", "genres", "anime_id", "buushido_id", "start_date", "rating")
+        fields = ("id", "title", "description", "nsfw", "portrait_pic", "completed", "studios", "num_episodes", "genres", "anime_id", "buushido_id", "start_date", "rating")
 
 
 # for search querying
