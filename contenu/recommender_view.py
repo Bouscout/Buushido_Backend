@@ -25,7 +25,7 @@ def send_recommendations(request):
         print("last watched is : ", [video.objects.get(id=x) for x in last_watched])
 
     start = time()
-    recommended = model.recommend_shows(last_watched)
+    recommended, ratings = model.recommend_shows(last_watched)
     runtime = time() - start
 
     # for now the recommender returns the series object but when we will implement the caching system
@@ -35,6 +35,7 @@ def send_recommendations(request):
     data = {
         "series" : videos.data,
         "userParams" : request.GET["watched"],
+        "ratings" : ratings,
         "runtime" : runtime,
     }
 

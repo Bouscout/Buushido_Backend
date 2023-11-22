@@ -195,9 +195,14 @@ class la_video(models.Model):
     episode = models.PositiveIntegerField(verbose_name='===> Ecrivez le chiffre correspondant a l\'episode')
     saison = models.PositiveIntegerField('la saison correspondant a l\'episode',blank=True, null = True, default=1)
     nom = models.ForeignKey(video, on_delete=models.CASCADE, null=True)
+
+    # url infos
     url = models.CharField(max_length = 200, blank=True, null = True)
     url2 = models.CharField(max_length = 200, blank=True, null = True)
     url3 = models.CharField(max_length = 200, blank=True, null = True)
+    direct_url = models.CharField(max_length=200, blank=True, null=True)
+
+    # extra
     ref = models.PositiveIntegerField(null=True, blank=True)
     special = models.CharField(max_length=30, default=None, null=True, blank=True)
 
@@ -209,6 +214,7 @@ class la_video(models.Model):
     def get_ref(self):
         self.ref = int(str(self.saison)+str(self.episode))
 
+    # parsing the correct link
     def fullscreen(self):
         obj = str(self.url)
         obj = obj.lower()

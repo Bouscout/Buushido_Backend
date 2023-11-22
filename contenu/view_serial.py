@@ -16,6 +16,7 @@ from contenu.django_case import DB_cache_test
 DAYS_DELTA = 5
 START = datetime.now() - timedelta(days=DAYS_DELTA)
 NUM_EPISODES_RECENT = 20
+CACHE = False
 
 cache = DB_cache_test()
 onglets = affichage.objects.all()[0].to_display.all().order_by('order_id')
@@ -33,7 +34,7 @@ def pour_most_recent(end=datetime.now()):
     return sample_episode.data
 
     
-def pour_onglet_old(liste:list[onglet], first=False):
+def pour_onglet_old(liste:list, first=False):
     to_send = []
     for onglet in liste:
         if first == True :
@@ -137,31 +138,32 @@ def cache_posters():
 
 
 # =================== All caching set up ===========================
-cache.adding('posters', cache_posters())
+if CACHE :
+    cache.adding('posters', cache_posters())
 
-# fetching one by one
-cache.adding('onglet1', pour_onglet(id=1, first=True))
-cache.adding('onglet2', pour_onglet(id=2))
+    # fetching one by one
+    cache.adding('onglet1', pour_onglet(id=1, first=True))
+    cache.adding('onglet2', pour_onglet(id=2))
 
-# fetching by group
-cache.adding('onglet3', pour_onglet_old(onglets[2:4]))
-cache.adding('onglet4', pour_onglet_old(onglets[4:6]))
-cache.adding('onglet5', pour_onglet_old(onglets[6:8]))
-cache.adding('onglet6', pour_onglet_old(onglets[8:]))
+    # fetching by group
+    cache.adding('onglet3', pour_onglet_old(onglets[2:4]))
+    cache.adding('onglet4', pour_onglet_old(onglets[4:6]))
+    cache.adding('onglet5', pour_onglet_old(onglets[6:8]))
+    cache.adding('onglet6', pour_onglet_old(onglets[8:]))
 
-# onglet special
-cache.adding('onglet_special', cache_special())
+    # onglet special
+    cache.adding('onglet_special', cache_special())
 
-# most recent additions
-cache.adding('recent', pour_most_recent())
+    # most recent additions
+    cache.adding('recent', pour_most_recent())
 
 
-categorie = ['Action', 'Aventure', 'Mystere', 'Horreur', 'Isekai', 'Comedie', 'Fantaisie',
-            'Shonen', 'Romance', 'Sci-fi', 'Ecchi', 'Drama', 'Seinen', 'Slice of life', 'Thriller',
-            'Shojo', 'Classique', 'Film']
+    categorie = ['Action', 'Aventure', 'Mystere', 'Horreur', 'Isekai', 'Comedie', 'Fantaisie',
+                'Shonen', 'Romance', 'Sci-fi', 'Ecchi', 'Drama', 'Seinen', 'Slice of life', 'Thriller',
+                'Shojo', 'Classique', 'Film']
 
-for elem in categorie :
-    cache.adding(elem.lower(), cache_categorie(elem))
+    for elem in categorie :
+        cache.adding(elem.lower(), cache_categorie(elem))
 
 
 # =================== All caching set up ===========================

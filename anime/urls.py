@@ -21,13 +21,14 @@ from django.conf.urls.static import static
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 # from rest_framework.authtoken import views
 
-
+# all apps urls
 
 urlpatterns = [
     path('', include('contenu.contenu_urls')),
     path('gerant/', include('gerant.gerant_urls')),
     path('', include('identifier.iden_urls')),
     path('metrics/', include('metrics.urls_metrics')),
+    path("recommendations/", include("recommendations.recommender_urls")),
     path("admin/", admin.site.urls),
     # path('api/token/', views.obtain_auth_token, name='token_obtain_pair'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

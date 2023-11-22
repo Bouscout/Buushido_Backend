@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "colorfield",
     "gerant" ,
     "metrics",
+    "recommendations",
     "whitenoise.runserver_nostatic" ,
     "django_extensions" ,
     "rest_framework",
@@ -99,7 +100,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "anime.wsgi.application"
 
-DATABASE_ROUTERS = ['metrics.metrics_router.extra_db_router']
+DATABASE_ROUTERS = [
+    # 'metrics.metrics_router.extra_db_router',
+    "recommendations.dbrouter.my_anime_db_router"
+    ]
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -150,10 +154,27 @@ DATABASES = {
       'sql_mode': 'traditional',
 
     },
+  },
+    "my_anime_db" : {
+      
+    'ENGINE': 'django.db.backends.mysql',
 
+    'NAME': 'buushido_recommendation_sbe',
 
+    'USER': username,
+
+    'PASSWORD': password,
+
+    'HOST': host,
+
+    'PORT': '3306',
+
+    'OPTIONS': {
+
+      'sql_mode': 'traditional',
+
+    },
   }
-
 }
 
 #DATABASES['default'] = dj_database_url.config()

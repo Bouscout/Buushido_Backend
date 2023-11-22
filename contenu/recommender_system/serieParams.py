@@ -67,7 +67,7 @@ class SeriesFetcher:
 
         ranked_series = sorted(series_to_rank, key=lambda x: x[0], reverse=True)
 
-        return [x[1] for x in ranked_series][:15]
+        return ([x[1] for x in ranked_series[:self.num_recommendations]], [x[0] for x in ranked_series[:self.num_recommendations]])
 
                 
     def picks_from_popular(self, max_attempt=100):
