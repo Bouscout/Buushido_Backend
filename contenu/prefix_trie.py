@@ -3,9 +3,11 @@ class trienode:
         self.word = word
         self.child = {}
         self.is_end = False
+
 class Trie :
     def __init__(self) :
         self.root = trienode('')
+    
     def insert(self, word):
         node = self.root
         for f in word :
@@ -15,6 +17,7 @@ class Trie :
                 node.child[f] = trienode(f)
                 node = node.child[f]
         node.is_end = True
+    
     def adding(self, node, pre):
         if node.is_end == True :
             self.output.append((pre + node.word))

@@ -14,7 +14,7 @@ class Vector_Space:
 
     def get_concat_vectors(self, animes:list, fetched=False) -> np.ndarray:
         """
-        Take in a list of ids and return their vector represensation in the cluster space
+        Take in a list of ids and return their vector represensation in the vector space
         """
         if not fetched :
             animes = [anime.objects.using(ANIME_DB).get(id=x) for x in animes]

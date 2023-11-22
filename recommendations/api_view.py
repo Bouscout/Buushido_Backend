@@ -41,3 +41,14 @@ def get_similar(request):
         serie["distance"] = dist
 
     return Response(series.data, status=status.HTTP_200_OK)
+
+# if user force to get a recommendations without having an account
+@api_view(["GET"])
+def get_recommendations(request):
+    pass
+
+
+@api_view(["GET"])
+def get_custom_recommendations(request):
+    pass
+
