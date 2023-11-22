@@ -6,10 +6,13 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from recommendations.serializer import Anime_Serializer
-from recommendations.models import anime
+from recommendations.models import anime, cluster
 from .recommendation_engine import Engine
+import random
 
 Recommender = Engine()
+POPULAR_CLUSTER = 16
+NUM_ELEMENTS = 30
 
 @api_view(["GET"])
 def get_infos(request):
@@ -24,7 +27,16 @@ def get_infos(request):
     series = Anime_Serializer(series_obj, many=True)
 
     return Response(series.data, status=status.HTTP_200_OK)
-    
+
+# request for some popular animes 
+@api_view(["GET"])
+def popular(request):
+    random_choices = cluster.objects.get(id=POPULAR_CLUSTER).anime_set.all()
+    random_choices = random.sample(list(random_choices), k=NUM_ELEMENTS)
+    series = Anime_Serializer(random_choices, many=True)    
+    return Response(series.data, status=status.HTTP_200_OK)
+
+
 @api_view(["GET"])
 def get_similar(request):
     if "animes" not in request.GET :
