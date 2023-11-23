@@ -42,10 +42,17 @@ def get_similar(request):
     if "animes" not in request.GET :
         return Response("Include the parameters '?animes=...'", status=status.HTTP_400_BAD_REQUEST)
     
+    if "black_list" in request.GET :
+        black_list = request.GET["black_list"]
+        black_list = list(map(int, str(black_list).split(",")))
+    
+    else : black_list = []
+
+    
     animes = request.GET["animes"]
     animes = list(map(int, str(animes).split(",")))
 
-    close, distance = Recommender.similar(animes)
+    close, distance = Recommender.similar(animes, black_list)
 
     series = Anime_Serializer(close, many=True)
 

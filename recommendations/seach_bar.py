@@ -7,6 +7,7 @@ from recommendations.models import anime, cluster
 from recommendations.serializer import Anime_Search_Serializer
 
 POPULAR_CLUSTER_ID = 16
+INIT_TRIE = False
 
 tr = Trie()
 dico_with_name = {}
@@ -25,9 +26,10 @@ def init_trie(list_animes):
     print("search trie initialized")
 
 #------------------- Initializing the search query ---------------------
-init_trie(
-    cluster.objects.get(id=POPULAR_CLUSTER_ID).anime_set.all()
-)
+if INIT_TRIE :
+    init_trie(
+        cluster.objects.get(id=POPULAR_CLUSTER_ID).anime_set.all()
+    )
 
 
 @api_view(["GET"])

@@ -8,5 +8,5 @@ class Engine:
 
         self.space = Vector_Space(self.item_model)
 
-    def similar(self, ids:list):
-        return self.space.find_close(ids)
+    def similar(self, ids:list, blacklist:list):
+        return self.space.find_close(ids, blacklist)

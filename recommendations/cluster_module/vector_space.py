@@ -51,11 +51,11 @@ class Vector_Space:
         , axis=1)
         return distances
 
-    def find_close(self, ids:list, limit=30)  :
+    def find_close(self, ids:list, blacklist:list ,limit=30)  :
         """
         Given a list of animes ids, it returns a list of the closest one and a list of their distances
         """
-        blacklist = ids # elements to exclude
+        blacklist = blacklist + ids # elements to exclude
         center = self.get_concat_vectors(ids)
         center = np.mean(center, axis=0)
 
