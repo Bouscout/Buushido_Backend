@@ -21,14 +21,27 @@ class cluster(models.Model):
         app_label = "recommendations"
     def __str__(self) -> str:
         return f"cluster : {self.id}"
+    
+class classification(models.Model):
+    rating = models.CharField(max_length=100)
+    class Meta :
+        app_label = "recommendations"
+
+    def __str__(self) -> str:
+        return str(self.rating)
 
 
 class anime(models.Model) :
     # basic informations
     title = models.CharField(max_length=150)
+    english_title = models.CharField(max_length=150, null=True, default=None)
+    other_name = models.CharField(max_length=150, null=True, default=None)
+
     description = models.TextField(null=True, blank=True)
     completed = models.BooleanField(default=True) # if all the episodes have aired
-    studios = models.CharField(max_length=150, null=True, blank=True)
+    studios = models.CharField(max_length=150, null=True, default=None)
+    producers = models.CharField(max_length=150, null=True, default=None)
+
     num_episodes = models.IntegerField(default=12)
 
     genres = models.ManyToManyField(genres, default=None)
@@ -42,9 +55,8 @@ class anime(models.Model) :
     portrait_pic = models.URLField(default=None, null=True)
 
     # informations for filters
-    nsfw = models.BooleanField(default=False)
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, default=None)
+    classification = models.ManyToManyField(classification, default=None)
+    year_interaction = models.IntegerField(default=2007)
     
     rating = models.DecimalField(
         default=5.0,
@@ -57,8 +69,10 @@ class anime(models.Model) :
     )
 
     # vector and ML information
-    features_vector = models.BinaryField(default=None, null=True) # numpy vector of shape(84,)
-    params_vector = models.BinaryField(default=None, null=True) # numpy vector of shape(256,)
+    index = models.IntegerField(default=None, null=True) # index in the stored numpy array
+    features_vector = models.BinaryField(default=None, null=True) # numpy vector of shape(64,)
+    params_vector = models.BinaryField(default=None, null=True) # numpy vector of shape(150,)
+
     cluster = models.ForeignKey(cluster, on_delete=models.SET_NULL, null=True)
 
     class Meta :

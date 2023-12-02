@@ -8,9 +8,15 @@ class Anime_Serializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    classification = serializers.SlugRelatedField(
+        slug_field="rating",
+        many=True,
+        read_only=True
+    )
+
     class Meta :
         model = anime
-        fields = ("id", "title", "description", "nsfw", "portrait_pic", "completed", "studios", "num_episodes", "genres", "anime_id", "buushido_id", "start_date", "rating")
+        fields = ("id", "buushido_id", "title", "english_title", "other_name", "description", "classification", "portrait_pic", "completed", "studios", "producers", "num_episodes", "genres", "anime_id", "rating")
 
 
 # for search querying

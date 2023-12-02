@@ -4,7 +4,7 @@ from DeepLearningNumpy.network import network
 class Engine:
     def __init__(self) -> None:
         self.item_model = network()
-        self.item_model.load_model("recommendations/saved/numpy_models/numpy_item_model.pkl")
+        self.item_model.load_model("recommendations/saved/numpy_models/content_item_model.pkl")
 
         self.space = Vector_Space(self.item_model)
 
