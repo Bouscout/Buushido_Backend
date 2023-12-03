@@ -12,7 +12,9 @@ class Vector_Space:
 
         self.item_model = item_model # for latent vector predicitons
 
-    def get_concat_vectors(self, animes:list, fetched=False) -> np.ndarray:
+        self.num_neighbors = 2
+
+    def get_vectors(self, animes:list, blacklist:list=[], fetched=False) -> np.ndarray:
         """
         Take in a list of ids and return their vector represensation in the vector space
         """
@@ -21,13 +23,18 @@ class Vector_Space:
         
         vectors = []
         for x in animes :
-            if x.features_vector :
+            if x.features_vector and x.id not in blacklist:
                 vectors.append(
-                    # we have to index because we ended up encapsulating the byte array inside another byte object,
-                    # might need to correct that on the next update of parameters
                     np.frombuffer(x.features_vector, dtype=np.float32)
                 )     
         vectors = np.array(vectors, dtype=np.float32).reshape(len(vectors), -1)
+        return vectors
+
+
+    def get_concat_vectors(self, vectors) -> np.ndarray:
+        """
+        Take in some vectors and concatenate them after passing through the item model
+        """
         latent_vector = self.item_model(vectors)
 
         return np.concatenate([latent_vector, vectors], axis=-1)
@@ -50,27 +57,43 @@ class Vector_Space:
             (origin - points) ** 2
         , axis=1)
         return distances
+    
+    def rank(self, item, rank_by, limit=50, desc=False) -> tuple:
+        """
+        Rank the elements by the passed value for a certain limit
+        """
+        pair = [(i, x) for i, x in zip(item, rank_by)]
+        pair = sorted(pair, key=lambda x : x[1], reverse=desc)
+        pair = pair[:limit]
 
-    def find_close(self, ids:list, blacklist:list ,limit=30)  :
+        return ([x[0] for x in pair], [x[1] for x in pair])
+
+
+    def find_close(self, ids:list, blacklist:list ,limit=30, fetched=False)  :
         """
         Given a list of animes ids, it returns a list of the closest one and a list of their distances
         """
-        blacklist = blacklist + ids # elements to exclude
-        center = self.get_concat_vectors(ids)
-        center = np.mean(center, axis=0)
+        if not fetched :
+            blacklist = blacklist + ids # elements to exclude
+            center = self.get_concat_vectors(
+                self.get_vectors(ids)
+            )
+        else :
+            center = self.get_concat_vectors(ids) # we already have the animes vectors as ids
 
-        close_cluster, centers = self.cluster.find_neighbors(center, num_neighbors=3)
+        center = np.mean(center, axis=0)
+        close_cluster, centers = self.cluster.find_neighbors(center, num_neighbors=self.num_neighbors)
 
         animes = []
         for clust in close_cluster :
             animes += self.find_cluster_elements(clust+1, blacklist)
 
-        candidats = self.get_concat_vectors(animes, fetched=True)
+        candidats = self.get_vectors(animes, fetched=True)
+        candidats = self.get_concat_vectors(candidats)
         distances = self.distance_array(center, candidats)
 
         # sorting the distances while preserving the ids
-        closest = [(animes[x], distances[x]) for x in range(len(animes))]
-        closest = sorted(closest, key=lambda x: x[1])[:limit]
+        animes, distances = self.rank(animes, rank_by=distances, limit=limit)
 
-        return [x[0] for x in closest], [x[1] for x in closest]
+        return animes, distances
 

@@ -11,8 +11,9 @@ from .recommendation_engine import Engine
 import random
 
 Recommender = Engine()
-POPULAR_CLUSTER = 16
+POPULAR_CLUSTER = 11
 NUM_ELEMENTS = 30
+
 
 @api_view(["GET"])
 def get_infos(request):
@@ -57,14 +58,40 @@ def get_similar(request):
     series = Anime_Serializer(close, many=True)
 
     for serie, dist in zip(series.data, distance) :
-        serie["distance"] = dist
+        serie["affinity"] = dist
 
     return Response(series.data, status=status.HTTP_200_OK)
 
 # if user force to get a recommendations without having an account
 @api_view(["GET"])
 def get_recommendations(request):
-    pass
+    if "animes" not in request.GET :
+        return Response("Include the parameters '?animes=...'", status=status.HTTP_400_BAD_REQUEST)
+    
+    if "age" in request.GET : age = request.GET["age"]
+    else : age = 18
+
+    if "gender" in request.GET : gender = request.GET["gender"]
+    else : gender = "male"
+    
+    if "black_list" in request.GET :
+        black_list = request.GET["black_list"]
+        black_list = list(map(int, str(black_list).split(",")))
+    
+    else : black_list = []
+
+    # preparing animes list
+    animes = request.GET["animes"]
+    animes = list(map(int, str(animes).split(",")))
+
+    animes, ratings = Recommender.ranking_visitor(age, gender, animes, black_list)
+
+    series = Anime_Serializer(animes, many=True)
+
+    for serie, rate in zip(series.data, ratings) :
+        serie["affinity"] = rate[0]
+
+    return Response(series.data, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])

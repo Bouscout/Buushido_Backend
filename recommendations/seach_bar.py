@@ -7,6 +7,7 @@ from recommendations.models import anime, cluster
 from recommendations.serializer import Anime_Search_Serializer
 
 POPULAR_CLUSTER_ID = 16
+LIMIT = 500
 INIT_TRIE = False
 
 tr = Trie()
@@ -28,7 +29,7 @@ def init_trie(list_animes):
 #------------------- Initializing the search query ---------------------
 if INIT_TRIE :
     init_trie(
-        cluster.objects.get(id=POPULAR_CLUSTER_ID).anime_set.all()
+        cluster.objects.get(id=POPULAR_CLUSTER_ID).anime_set.all()[:LIMIT]
     )
 
 
