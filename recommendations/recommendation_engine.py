@@ -1,6 +1,7 @@
 from recommendations.cluster_module.vector_space import Vector_Space
 from DeepLearningNumpy.network import network
 from recommendations.numpy_models import Collab_Model, Content_Based_filtering, Hybrid_Model
+import numpy as np
 from django.shortcuts import get_list_or_404
 
 class Engine:
@@ -45,6 +46,7 @@ class Engine:
         ratings = self.hybrid_model.predict(user_feat, animes_features, user_param, animes_idx, weights=(0.65, 0.35))
 
         animes_canditate, ratings = self.space.rank(animes_canditate, ratings, desc=True, limit=30)
+        ratings = np.clip(ratings, 0.0, 1.0) # clipping the rating to avoid outlier
 
         return animes_canditate, ratings
 

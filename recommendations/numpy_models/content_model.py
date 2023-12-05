@@ -32,7 +32,7 @@ class Content_Based_filtering():
 
 
     def user_features(self, watched_feature:np.ndarray, age:int=None, gender:str=None):
-        if age is None or not str.isdigit(age) : age = 18
+        if age is None : age = 18
         else : age = int(age)
         MIN_AGE = 12
         MAX_AGE = 70

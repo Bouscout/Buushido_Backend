@@ -5,19 +5,42 @@ from rest_framework.response import Response
 from contenu.prefix_trie import Trie
 from recommendations.models import anime, cluster
 from recommendations.serializer import Anime_Search_Serializer
+import pickle
 
-POPULAR_CLUSTER_ID = 16
+POPULAR_CLUSTER_ID = 18 # 11 also
 LIMIT = 500
-INIT_TRIE = False
+INIT_TRIE = True
 
 tr = Trie()
 dico_with_name = {}
+Trie_file_path = "recommendations/saved/search_bar_trie/saved_trie.pkl"
+Dico_file_path = "recommendations/saved/search_bar_trie/saved_dico.pkl"
 
 def insert_result(serie:anime, serialized=None):
     name = str(serie.title).lower()
+    # print("done : ", serie.index)
     tr.insert(name)
     serialized = serialized if serialized else Anime_Search_Serializer(serie).data
     dico_with_name[name] = serialized
+
+def init_from_file():
+    global tr, dico_with_name
+    with open(Trie_file_path, "rb") as f:
+        tr = pickle.load(f)
+
+    with open(Dico_file_path, "rb") as f:
+        dico_with_name = pickle.load(f)
+
+    print("trie initialized from file")
+
+def save_trie():
+    with open(Trie_file_path, "wb") as f :
+        pickle.dump(tr, f)
+    with open(Dico_file_path, "wb") as f :
+        pickle.dump(dico_with_name, f)
+    
+    print("all entries saved in trie")
+
 
 def init_trie(list_animes):
     serialized = Anime_Search_Serializer(list_animes, many=True)
@@ -28,9 +51,14 @@ def init_trie(list_animes):
 
 #------------------- Initializing the search query ---------------------
 if INIT_TRIE :
-    init_trie(
-        cluster.objects.get(id=POPULAR_CLUSTER_ID).anime_set.all()[:LIMIT]
-    )
+    init_from_file()
+    # init_trie(
+    #     cluster.objects.get(id=POPULAR_CLUSTER_ID).anime_set.all()
+    # )
+
+    # save_trie()
+    # init_trie(anime.objects.all())
+
 
 
 @api_view(["GET"])

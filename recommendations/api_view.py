@@ -68,7 +68,9 @@ def get_recommendations(request):
     if "animes" not in request.GET :
         return Response("Include the parameters '?animes=...'", status=status.HTTP_400_BAD_REQUEST)
     
-    if "age" in request.GET : age = request.GET["age"]
+    if "age" in request.GET : 
+        age = request.GET["age"]
+        if isinstance(age, str) : age = 18
     else : age = 18
 
     if "gender" in request.GET : gender = request.GET["gender"]
