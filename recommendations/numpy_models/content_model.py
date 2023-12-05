@@ -31,7 +31,7 @@ class Content_Based_filtering():
         return np.mean(anime_feat, axis=0)
 
 
-    def user_features(self, watched_feature:np.ndarray, age:int=None, gender:str=None):
+    def user_features(self, watched_feature:np.ndarray, age:int=None, gender:int=None):
         if age is None : age = 18
         else : age = int(age)
         MIN_AGE = 12
@@ -40,13 +40,8 @@ class Content_Based_filtering():
 
         info_vec = np.array([age_scaled, 0, 0, 0])
     
-        if gender is not None :
-            gender_encoding = {
-                "male" : 1,
-                "female" : 2,
-                "non_binary" : 3,
-            }
-            info_vec[gender_encoding[gender.lower()]] = 1
+        if gender is not None : # 1, 2, 3, for male, female, non-binary
+            info_vec[gender] = 1
         
         return np.concatenate([info_vec, watched_feature], axis=-1).reshape(1, -1)
 

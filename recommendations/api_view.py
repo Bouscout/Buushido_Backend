@@ -73,8 +73,15 @@ def get_recommendations(request):
         if isinstance(age, str) : age = 18
     else : age = 18
 
-    if "gender" in request.GET : gender = request.GET["gender"]
-    else : gender = "male"
+    
+    if "gender" not in request.GET :
+        gender = None # male
+    else :
+        try :
+            gender = int(request.GET["gender"])
+        except Exception as e:
+            msg = f"Gender should be a digit between 1, 2, 3, error : {e}"
+            return Response(msg, status=status.HTTP_400_BAD_REQUEST)
     
     if "black_list" in request.GET :
         black_list = request.GET["black_list"]

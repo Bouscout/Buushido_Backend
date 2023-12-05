@@ -27,7 +27,7 @@ class Engine:
     def similar(self, ids:list, blacklist:list):
         return self.space.find_close(ids, blacklist)
     
-    def ranking_visitor(self, age:int, gender:str, animes:list, blacklist:list):
+    def ranking_visitor(self, age:int, gender:int, animes:list, blacklist:list):
         user_param = None # visitor
 
         # get input vectors
